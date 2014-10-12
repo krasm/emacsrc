@@ -3,6 +3,7 @@
 (add-to-list 'load-path conf-dir)
 (add-to-list 'load-path (concat conf-dir "/packages/color-theme-6.6.0"))
 (add-to-list 'load-path (concat conf-dir "/packages/org/lisp"))
+(add-to-list 'load-path (concat conf-dir "/packages/groovy-mode"))
 
 ;; misc stuff
 (load-library "emacs-rc-misc")
@@ -33,8 +34,11 @@
 ;; ediff mode
 (load-library "emacs-rc-ediff")
 
-;; mutt support
-(load-library "emacs-rc-ediff")
+;; groovy mode
+(load-library "emacs-rc-groovy")
+
+
+
 
 ;; magit
 ;;(load-library "emacs-rc-magit")

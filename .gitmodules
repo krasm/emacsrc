@@ -6,3 +6,6 @@
 	path = packages/foldingmode
 	url = https://github.com/jaalto/project-emacs--folding-mode.git
 	branch = master
+[submodule "packages/groovy-mode"]
+	path = packages/groovy-mode
+	url = git://github.com/russel/Emacs-Groovy-Mode.git

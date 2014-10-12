@@ -1,0 +1,8 @@
+[submodule "packages/org"]
+	path = packages/org
+	url = git://orgmode.org/org-mode.git
+	branch = master
+[submodule "packages/foldingmode"]
+	path = packages/foldingmode
+	url = https://github.com/jaalto/project-emacs--folding-mode.git
+	branch = master

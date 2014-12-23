@@ -1,4 +1,4 @@
-(defconst conf-dir "~/priv/emacsrc")
+(defconst conf-dir "~/prj/emacsrc")
 
 (add-to-list 'load-path conf-dir)
 (add-to-list 'load-path (concat conf-dir "/packages/color-theme-6.6.0"))
@@ -62,5 +62,12 @@
  '(nxml-bind-meta-tab-to-complete-flag t)
  '(nxml-slash-auto-complete-flag t)
  '(org-agenda-files nil)
+ '(show-paren-mode t)
  '(tool-bar-mode nil))
 (put 'downcase-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "fixed" :foundry "misc" :slant normal :weight normal :height 113 :width normal)))))

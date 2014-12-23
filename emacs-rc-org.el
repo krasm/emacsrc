@@ -13,7 +13,7 @@
 
 ;; todo lists
 (setq org-todo-keywords
-      '((sequence "TODO" "FEEDBACK" "VERIFY" | "DONE" "DELEGATED")))
+      '((sequence "TODO" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED")))
 
 (setq org-log-done 'note)
 ;; for lua integration

@@ -4,14 +4,22 @@
 (add-to-list 'load-path (concat conf-dir "/packages/color-theme-6.6.0"))
 (add-to-list 'load-path (concat conf-dir "/packages/org/lisp"))
 (add-to-list 'load-path (concat conf-dir "/packages/groovy-mode"))
+(add-to-list 'load-path (concat conf-dir "/packages/emacs-maildir"))
+(add-to-list 'load-path (concat conf-dir "/packages/kv"))
+(add-to-list 'load-path (concat conf-dir "/packages/noflet"))
+(add-to-list 'load-path (concat conf-dir "/packages/s"))
+(add-to-list 'load-path (concat conf-dir "/packages/dash"))
 
 ;; misc stuff
 (load-library "emacs-rc-misc")
 
+;; melpa
+(load-library "emacs-rc-melpa")
+
 ;; color theme
-(if (< emacs-major-version 24)
-    (load-library "emacs-rc-color-theme")
-  (load-theme 'misterioso t))
+;;(if (< emacs-major-version 24)
+;;    (load-library "emacs-rc-color-theme")
+;;  (load-theme 'misterioso t))
 
 ;; emacs server
 (load-library "emacs-rc-server")
@@ -37,8 +45,10 @@
 ;; groovy mode
 (load-library "emacs-rc-groovy")
 
+;; scheme mode
+(load-library "emacs-rc-scheme")
 
-
+(load-library "emacs-rc-maildir")
 
 ;; magit
 ;;(load-library "emacs-rc-magit")

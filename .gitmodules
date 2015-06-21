@@ -6,6 +6,24 @@
 	path = packages/foldingmode
 	url = https://github.com/jaalto/project-emacs--folding-mode.git
 	branch = master
+[submodule "emacs-maildir"]
+	path = emacs-maildir
+	url = https://github.com/nicferrier/emacs-maildir.git
+[submodule "packages/emacs-maildir"]
+	path = packages/emacs-maildir
+	url = https://github.com/nicferrier/emacs-maildir.git
+[submodule "packages/kv"]
+	path = packages/kv
+	url = https://github.com/nicferrier/emacs-kv.git
+[submodule "packages/noflet"]
+	path = packages/noflet
+	url = https://github.com/nicferrier/emacs-noflet.git
+[submodule "packages/s"]
+	path = packages/s
+	url = https://github.com/magnars/s.el.git
+[submodule "packages/dash"]
+	path = packages/dash
+	url = https://github.com/magnars/dash.el.git
 [submodule "packages/groovy-mode"]
 	path = packages/groovy-mode
-	url = git://github.com/russel/Emacs-Groovy-Mode.git
+	url = https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes.git

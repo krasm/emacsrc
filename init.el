@@ -60,6 +60,7 @@
 (gradle-mode 1)
 
 ;; cider clojure mode
+(require 'clojure-mode)
 (require 'cider)
 (cider-jack-in)
 

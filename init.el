@@ -1,6 +1,7 @@
-(defconst conf-dir "~/prj/emacsrc")
+(defconst conf-dir "~/priv/emacsrc")
 
 (add-to-list 'load-path conf-dir)
+(add-to-list 'load-path (concat conf-dir "/packages/"))
 (add-to-list 'load-path (concat conf-dir "/packages/color-theme-6.6.0"))
 (add-to-list 'load-path (concat conf-dir "/packages/org/lisp"))
 (add-to-list 'load-path (concat conf-dir "/packages/groovy-mode"))
@@ -9,6 +10,10 @@
 (add-to-list 'load-path (concat conf-dir "/packages/noflet"))
 (add-to-list 'load-path (concat conf-dir "/packages/s"))
 (add-to-list 'load-path (concat conf-dir "/packages/dash"))
+(add-to-list 'load-path (concat conf-dir "/packages/gradle-mode"))
+(add-to-list 'load-path (concat conf-dir "/packages/clojure-mode"))
+(add-to-list 'load-path (concat conf-dir "/packages/cider"))
+
 
 ;; misc stuff
 (load-library "emacs-rc-misc")
@@ -49,6 +54,19 @@
 (load-library "emacs-rc-scheme")
 
 (load-library "emacs-rc-maildir")
+
+;;  gradle mode
+(require 'gradle-mode)
+(gradle-mode 1)
+
+;; cider clojure mode
+(require 'cider)
+(cider-jack-in)
+
+;; clearcase support
+;;(defvar directory-sep-char "/")
+;;(load "clearcase")
+
 
 ;; magit
 ;;(load-library "emacs-rc-magit")

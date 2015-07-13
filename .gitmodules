@@ -27,3 +27,12 @@
 [submodule "packages/groovy-mode"]
 	path = packages/groovy-mode
 	url = https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes.git
+[submodule "packages/gradle-mode"]
+	path = packages/gradle-mode
+	url = https://github.com/jacobono/emacs-gradle-mode.git
+[submodule "packages/cider"]
+	path = packages/cider
+	url = https://github.com/clojure-emacs/cider.git
+[submodule "packages/clojure-mode"]
+	path = packages/clojure-mode
+	url = https://github.com/clojure-emacs/clojure-mode.git

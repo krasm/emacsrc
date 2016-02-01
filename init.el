@@ -13,6 +13,7 @@
 (add-to-list 'load-path (concat conf-dir "/packages/gradle-mode"))
 (add-to-list 'load-path (concat conf-dir "/packages/clojure-mode"))
 (add-to-list 'load-path (concat conf-dir "/packages/cider"))
+(add-to-list 'load-path (concat conf-dir "/packages/web-mode"))
 
 
 ;; misc stuff
@@ -68,6 +69,8 @@
 ;;(defvar directory-sep-char "/")
 ;;(load "clearcase")
 
+;; web-mode
+(load-library "emacs-rc-web-mode")
 
 ;; magit
 ;;(load-library "emacs-rc-magit")

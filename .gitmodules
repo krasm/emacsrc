@@ -36,9 +36,6 @@
 [submodule "packages/clojure-mode"]
 	path = packages/clojure-mode
 	url = https://github.com/clojure-emacs/clojure-mode.git
-[submodule "web-mode"]
-	path = web-mode
-	url = https://github.com/fxbois/web-mode.git
 [submodule "packages/web-mode"]
 	path = packages/web-mode
 	url = https://github.com/fxbois/web-mode.git

@@ -1,4 +1,4 @@
-(defconst conf-dir "~/priv/emacsrc")
+(defconst conf-dir "~/prj/emacsrc")
 
 (add-to-list 'load-path conf-dir)
 (add-to-list 'load-path (concat conf-dir "/packages/"))

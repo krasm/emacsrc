@@ -39,3 +39,12 @@
 [submodule "packages/web-mode"]
 	path = packages/web-mode
 	url = https://github.com/fxbois/web-mode.git
+[submodule "packages/go-mode"]
+	path = packages/go-mode
+	url = https://github.com/dominikh/go-mode.el.git
+[submodule "packages/jdee"]
+	path = packages/jdee
+	url = https://github.com/jdee-emacs/jdee.git
+[submodule "packages/jdee-server"]
+	path = packages/jdee-server
+	url = https://github.com/jdee-emacs/jdee-server.git

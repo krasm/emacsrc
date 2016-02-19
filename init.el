@@ -14,6 +14,8 @@
 (add-to-list 'load-path (concat conf-dir "/packages/clojure-mode"))
 (add-to-list 'load-path (concat conf-dir "/packages/cider"))
 (add-to-list 'load-path (concat conf-dir "/packages/web-mode"))
+(add-to-list 'load-path (concat conf-dir "/packages/go-mode"))
+(add-to-list 'load-path (concat conf-dir "/packages/jdee"))
 
 
 ;; misc stuff
@@ -21,6 +23,9 @@
 
 ;; melpa
 (load-library "emacs-rc-melpa")
+
+;; speedbar
+(load-library "emacs-rc-speedbar")
 
 ;; color theme
 ;;(if (< emacs-major-version 24)
@@ -65,12 +70,18 @@
 (require 'cider)
 (cider-jack-in)
 
+;; go-mode
+(load-library "emacs-rc-go")
+
 ;; clearcase support
 ;;(defvar directory-sep-char "/")
 ;;(load "clearcase")
 
 ;; web-mode
 (load-library "emacs-rc-web-mode")
+
+;; jdee
+(load-library "emacs-rc-jdee")
 
 ;; magit
 ;;(load-library "emacs-rc-magit")
@@ -89,12 +100,16 @@
  '(custom-enabled-themes (quote (wombat)))
  '(display-time-mode t)
  '(font-use-system-font t)
+ '(jdee-server-dir "/home/krasm/prj/emacsrc")
  '(nxml-attribute-indent 2)
  '(nxml-auto-insert-xml-declaration-flag t)
  '(nxml-bind-meta-tab-to-complete-flag t)
  '(nxml-slash-auto-complete-flag t)
  '(org-agenda-files nil)
+ '(send-mail-function (quote smtpmail-send-it))
  '(show-paren-mode t)
+ '(smtpmail-smtp-server "localhost")
+ '(smtpmail-smtp-service 25)
  '(tool-bar-mode nil))
 (put 'downcase-region 'disabled nil)
 (custom-set-faces

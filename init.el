@@ -62,7 +62,7 @@
 (load-library "emacs-rc-ediff")
 
 ;; groovy mode
-(load-library "emacs-rc-groovy")
+;;(load-library "emacs-rc-groovy")
 
 ;; scheme mode
 (load-library "emacs-rc-scheme")

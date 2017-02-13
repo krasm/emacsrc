@@ -20,6 +20,7 @@
 (add-to-list 'load-path (concat conf-dir "/packages/lua-mode"))
 (add-to-list 'load-path (concat conf-dir "/packages/markdown-mode"))
 (add-to-list 'load-path (concat conf-dir "/packages/php-mode"))
+(add-to-list 'load-path (concat conf-dir "/packages/python-mode"))
 
 (add-to-list 'load-path (concat conf-dir "/solarized"))
 (add-to-list 'load-path (concat conf-dir "/themes"))
@@ -80,6 +81,9 @@
 
 ;; go-mode
 (load-library "emacs-rc-go")
+
+;; python mode
+(load-library "emacs-rc-python")
 
 ;; clearcase support
 ;;(defvar directory-sep-char "/")

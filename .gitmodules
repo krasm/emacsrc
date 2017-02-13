@@ -57,3 +57,6 @@
 [submodule "packages/php-mode"]
 	path = packages/php-mode
 	url = https://github.com/ejmr/php-mode.git
+[submodule "packages/python-mode"]
+	path = packages/python-mode
+	url = https://gitlab.com/python-mode-devs/python-mode.git

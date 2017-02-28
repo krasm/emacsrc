@@ -60,3 +60,9 @@
 [submodule "packages/python-mode"]
 	path = packages/python-mode
 	url = https://gitlab.com/python-mode-devs/python-mode.git
+[submodule "packages/typing-practice"]
+	path = packages/typing-practice
+	url = https://github.com/ngksternhagen/typing-practice-el.git
+[submodule "packages/xcscope"]
+	path = packages/xcscope
+	url = https://github.com/dkogan/xcscope.el.git

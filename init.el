@@ -25,6 +25,9 @@
 (add-to-list 'load-path (concat conf-dir "/solarized"))
 (add-to-list 'load-path (concat conf-dir "/themes"))
 
+(add-to-list 'load-path (concat conf-dir "/packages/typing-practice"))
+(add-to-list 'load-path (concat conf-dir "/packages/xcscope"))
+
 (load-library "package")
 
 ;; misc stuff
@@ -110,6 +113,11 @@
 
 (load-library "emacs-rc-php")
 
+(load-library "typing-practice")
+
+(require 'xcscope)
+(cscope-setup)
+
 ;; solarized 
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
@@ -141,4 +149,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 98 :width normal)))))
+ '(default ((t (:family "Tlwg Typewriter" :foundry "PfEd" :slant normal :weight normal :height 159 :width normal)))))

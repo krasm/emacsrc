@@ -15,6 +15,7 @@
 (defvar myPackages
   '(better-defaults
     elpy ;;  depends on jedi and flake8
+    lua-mode
     material-theme))
 
 (mapc #'(lambda (package)

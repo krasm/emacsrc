@@ -30,6 +30,13 @@
 (load-theme 'material t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globally
 
+;; snippets directory
+(setq yas-snippet-dirs
+      '("~/.emacs.d/yasnippet-snippets")
+      )
+
+(yas-global-mode 1)
+
 ;; init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

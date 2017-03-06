@@ -66,3 +66,6 @@
 [submodule "packages/xcscope"]
 	path = packages/xcscope
 	url = https://github.com/dkogan/xcscope.el.git
+[submodule "yasnippet-snippets"]
+	path = yasnippet-snippets
+	url = https://github.com/AndreaCrotti/yasnippet-snippets.git

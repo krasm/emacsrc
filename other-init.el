@@ -17,8 +17,12 @@
     elpy ;;  depends on jedi and flake8
     kotlin-mode
     lua-mode
-    ;;magit
-    material-theme))
+    magit
+    material-theme
+    projectile
+    clojure-mode
+    cider
+    ))
 
 (mapc #'(lambda (package)
           (unless (package-installed-p package)

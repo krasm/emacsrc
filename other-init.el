@@ -16,7 +16,11 @@
   '(better-defaults
     elpy ;;  depends on jedi and flake8
     lua-mode
-    material-theme))
+    material-theme
+    projectile
+    clojure-mode
+    cider
+    ))
 
 (mapc #'(lambda (package)
           (unless (package-installed-p package)

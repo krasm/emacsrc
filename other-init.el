@@ -15,7 +15,7 @@
 (defvar myPackages
   '(better-defaults
     jedi
-    elpy ;;  depends on jedi and flake8
+    elpy ;;  depends on jedi and flake8 and epc
     kotlin-mode
     lua-mode
     magit
@@ -49,6 +49,8 @@
 ;; some settings for python
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
+
+(elpy-enable)
 
 (yas-global-mode 1)
 

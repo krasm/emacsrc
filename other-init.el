@@ -16,6 +16,8 @@
   '(better-defaults
     elpy ;;  depends on jedi and flake8
     lua-mode
+    kotlin-mode
+    xcscope
     material-theme))
 
 (mapc #'(lambda (package)
@@ -25,6 +27,9 @@
 
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
+
+(require 'xcscope)
+(cscope-setup)
 
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
@@ -36,6 +41,8 @@
       )
 
 (yas-global-mode 1)
+
+(global-set-key (kbd "C-x g") 'goto-line)
 
 ;; init.el ends here
 (custom-set-variables

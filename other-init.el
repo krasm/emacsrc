@@ -1,5 +1,9 @@
 ;; init.el --- Emacs configuration
 
+;; GLOBALS
+;; --------------------------------------
+(defconst conf-dir "~/prj/misc/emacsrc")
+
 ;; INSTALL PACKAGES
 ;; --------------------------------------
 
@@ -34,6 +38,8 @@
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
 
+
+
 (require 'xcscope)
 (cscope-setup)
 
@@ -60,7 +66,22 @@
 
 (display-time-mode 1)
 
+;; speedbar
+(add-to-list 'load-path conf-dir)
+(require 'sr-speedbar)
+(when window-system          ; start speedbar if we're using a window system
+  (sr-speedbar-open))
+
 (server-start)
+
+;; org mode
+(setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
+(setq org-directory "~/priv/org")
+
+;; load some defaults see https://github.com/hrs/sensible-defaults.el
+(load-file "emacs-rc-sensible-defaults.el")
+(sensible-defaults/use-all-settings)
+(sensible-defaults/use-all-keybindings)
 
 ;; misc functions
 (defun json-format ()
@@ -181,9 +202,3 @@
     (cider clojure-mode projectile material-theme magit lua-mode kotlin-mode elpy better-defaults)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "fixed" :foundry "misc" :slant normal :weight normal :height 96 :width normal)))))

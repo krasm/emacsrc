@@ -38,7 +38,8 @@
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
 
-
+(setenv "DICTIONARY" "en_GB")
+(setq ispell-program-name "/usr/local/bin/aspell")
 
 (require 'xcscope)
 (cscope-setup)
@@ -57,8 +58,10 @@
 
 
 ;; some settings for python
+(setq elpy-rpc-python-command "/usr/local/bin/python2")
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
+
 
 (elpy-enable)
 
@@ -67,21 +70,32 @@
 (display-time-mode 1)
 
 ;; speedbar
-(add-to-list 'load-path conf-dir)
-(require 'sr-speedbar)
-(when window-system          ; start speedbar if we're using a window system
-  (sr-speedbar-open))
-
-(server-start)
 
 ;; org mode
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+
 (setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
 (setq org-directory "~/priv/org")
+
+;; yaml mode
+
 
 ;; load some defaults see https://github.com/hrs/sensible-defaults.el
 (load-file "emacs-rc-sensible-defaults.el")
 (sensible-defaults/use-all-settings)
 (sensible-defaults/use-all-keybindings)
+
+(server-start)
+
+(add-to-list 'load-path (concat conf-dir "/packages/yaml-mode") )
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-hook 'yaml-mode-hook
+	  (lambda ()
+	    (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
 ;; misc functions
 (defun json-format ()
@@ -200,5 +214,12 @@
  '(package-selected-packages
    (quote
     (cider clojure-mode projectile material-theme magit lua-mode kotlin-mode elpy better-defaults)))
+ '(python-shell-interpreter "/usr/local/bin/python2")
  '(show-paren-mode t)
  '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

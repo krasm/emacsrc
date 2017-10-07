@@ -1,5 +1,9 @@
 ;; init.el --- Emacs configuration
 
+;; GLOBALS
+;; --------------------------------------
+(defconst conf-dir "~/prj/misc/emacsrc")
+
 ;; INSTALL PACKAGES
 ;; --------------------------------------
 
@@ -15,9 +19,10 @@
 (defvar myPackages
   '(better-defaults
     jedi
-    elpy ;;  depends on jedi and flake8
+    elpy ;;  depends on jedi and flake8 and epc
     kotlin-mode
     lua-mode
+    xcscope
     magit
     material-theme
     projectile
@@ -33,6 +38,12 @@
 
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
+
+(setenv "DICTIONARY" "en_GB")
+(setq ispell-program-name "/usr/local/bin/aspell")
+
+(require 'xcscope)
+(cscope-setup)
 
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
@@ -60,13 +71,43 @@
 (require 'ispell)
 
 ;; some settings for python
+(setq elpy-rpc-python-command "/usr/local/bin/python2")
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 
+(elpy-enable)
+
+(yas-global-mode 1)
 
 (display-time-mode 1)
 
+;; speedbar
+
+;; org mode
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+(setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
+(setq org-directory "~/priv/org")
+
+;; yaml mode
+
+
+;; load some defaults see https://github.com/hrs/sensible-defaults.el
+(load-file "emacs-rc-sensible-defaults.el")
+(sensible-defaults/use-all-settings)
+(sensible-defaults/use-all-keybindings)
+
 (server-start)
+
+(add-to-list 'load-path (concat conf-dir "/packages/yaml-mode") )
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-hook 'yaml-mode-hook
+	  (lambda ()
+	    (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
 ;; misc functions
 (defun json-format ()
@@ -185,6 +226,7 @@
  '(package-selected-packages
    (quote
     (cider clojure-mode projectile material-theme magit lua-mode kotlin-mode elpy better-defaults)))
+ '(python-shell-interpreter "/usr/local/bin/python2")
  '(show-paren-mode t)
  '(speedbar-default-position (quote left))
  '(tool-bar-mode nil))
@@ -193,4 +235,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+<<<<<<< HEAD
  '(default ((t (:family "Consolas" :foundry "MS  " :slant normal :weight normal :height 128 :width normal)))))
+=======
+ )
+>>>>>>> 4c7f36616b9fe5b89353f2ba43f986b2060fd7c6

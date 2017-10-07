@@ -69,3 +69,6 @@
 [submodule "yasnippet-snippets"]
 	path = yasnippet-snippets
 	url = https://github.com/AndreaCrotti/yasnippet-snippets.git
+[submodule "packages/yaml-mode"]
+	path = packages/yaml-mode
+	url = http://github.com/yoshiki/yaml-mode

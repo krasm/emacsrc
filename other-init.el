@@ -29,6 +29,7 @@
     clojure-mode
     cider
     groovy-mode
+    yaml-mode
     ))
 
 (mapc #'(lambda (package)
@@ -235,8 +236,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-<<<<<<< HEAD
  '(default ((t (:family "Consolas" :foundry "MS  " :slant normal :weight normal :height 128 :width normal)))))
-=======
- )
->>>>>>> 4c7f36616b9fe5b89353f2ba43f986b2060fd7c6

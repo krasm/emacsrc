@@ -23,6 +23,7 @@
     projectile
     clojure-mode
     cider
+    groovy-mode
     ))
 
 (mapc #'(lambda (package)
@@ -37,20 +38,31 @@
 (load-theme 'material t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globally
 
+;; sr-speedbar
+(add-to-list 'load-path "~/prj/emacsrc/packages")
+(require 'sr-speedbar)
+(setq 
+   sr-speedbar-right-side nil
+   sr-speedbar-width-x 10
+   sr-speedbar-width-console 10
+   sr-speedbar-max-width 10
+   sr-speedbar-delete-windows t
+   sr-speedbar-auto-refresh t)
+(sr-speedbar-open)
+
 ;; snippets directory
 (setq yas-snippet-dirs
       '("~/.emacs.d/yasnippet-snippets")
       )
+(yas-global-mode 1)
 
 (setq ispell-program-name "aspell")
 (require 'ispell)
-
 
 ;; some settings for python
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 
-(yas-global-mode 1)
 
 (display-time-mode 1)
 
@@ -174,10 +186,11 @@
    (quote
     (cider clojure-mode projectile material-theme magit lua-mode kotlin-mode elpy better-defaults)))
  '(show-paren-mode t)
+ '(speedbar-default-position (quote left))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "fixed" :foundry "misc" :slant normal :weight normal :height 96 :width normal)))))
+ '(default ((t (:family "Consolas" :foundry "MS  " :slant normal :weight normal :height 128 :width normal)))))

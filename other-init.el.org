@@ -1,6 +1,6 @@
 * GLOBAL SETTINGS
 #+BEGIN_SRC emacs-lisp
-(defconst conf-dir "~/prj/emacsrc")
+;;(defconst conf-dir "~/prj/emacsrc")
 #+END_SRC
 
 * PACKAGES
@@ -30,6 +30,7 @@
     groovy-mode
     yaml-mode
     org-bullets
+    dockerfile-mode
     ))
 
 (mapc #'(lambda (package)
@@ -76,11 +77,10 @@
 (cscope-setup)
 #+END_SRC
 
-
 * SR SPEEDBAR
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/prj/emacsrc/packages")
+(add-to-list 'load-path conf-dir)
 (require 'sr-speedbar)
 (setq
    sr-speedbar-right-side nil
@@ -122,6 +122,17 @@
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
 
+(defun my/org-mode-hook ()
+  "Stop the org-level headers from increasing in height relative to the other text."
+  (dolist (face '(org-level-1
+                  org-level-2
+                  org-level-3
+                  org-level-4
+                  org-level-5))
+    (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
+
+(add-hook 'org-mode-hook 'my/org-mode-hook)
+
 (add-hook 'org-mode-hook
           (lambda ()
             (org-bullets-mode t)))
@@ -135,7 +146,69 @@
 
 #+END_SRC
 
+* Set default font and configure font resizing
+Shamelesy stolen from https://github.com/hrs/
 
+I'm partial to Inconsolata.
+
+
+
+The standard =text-scale-= functions just resize the text in the current buffer;
+I'd generally like to resize the text in /every/ buffer, and I usually want to
+change the size of the modeline, too (this is especially helpful when
+presenting). These functions and bindings let me resize everything all together!
+
+Note that this overrides the default font-related keybindings from
+=sensible-defaults=.
+
+#+BEGIN_SRC emacs-lisp
+  (setq hrs/default-font "Monaco")
+  (setq hrs/default-font-size 11)
+  (setq hrs/current-font-size hrs/default-font-size)
+
+  (setq hrs/font-change-increment 1.1)
+
+  (defun hrs/font-code ()
+    "Return a string representing the current font (like \"Inconsolata-14\")."
+    (concat hrs/default-font "-" (number-to-string hrs/current-font-size)))
+
+  (defun hrs/set-font-size ()
+    "Set the font to `hrs/default-font' at `hrs/current-font-size'.
+  Set that for the current frame, and also make it the default for
+  other, future frames."
+    (let ((font-code (hrs/font-code)))
+      (add-to-list 'default-frame-alist (cons 'font font-code))
+      (set-frame-font font-code)))
+
+  (defun hrs/reset-font-size ()
+    "Change font size back to `hrs/default-font-size'."
+    (interactive)
+    (setq hrs/current-font-size hrs/default-font-size)
+    (hrs/set-font-size))
+
+  (defun hrs/increase-font-size ()
+    "Increase current font size by a factor of `hrs/font-change-increment'."
+    (interactive)
+    (setq hrs/current-font-size
+          (ceiling (* hrs/current-font-size hrs/font-change-increment)))
+    (hrs/set-font-size))
+
+  (defun hrs/decrease-font-size ()
+    "Decrease current font size by a factor of `hrs/font-change-increment', down to a minimum size of 1."
+    (interactive)
+    (setq hrs/current-font-size
+          (max 1
+               (floor (/ hrs/current-font-size hrs/font-change-increment))))
+    (hrs/set-font-size))
+
+  (define-key global-map (kbd "C-)") 'hrs/reset-font-size)
+  (define-key global-map (kbd "C-+") 'hrs/increase-font-size)
+  (define-key global-map (kbd "C-=") 'hrs/increase-font-size)
+  (define-key global-map (kbd "C-_") 'hrs/decrease-font-size)
+  (define-key global-map (kbd "C--") 'hrs/decrease-font-size)
+
+  (hrs/reset-font-size)
+#+END_SRC
 
 * EMACS SERVER
 

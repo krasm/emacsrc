@@ -86,7 +86,7 @@
    sr-speedbar-max-width 10
    sr-speedbar-delete-windows t
    sr-speedbar-auto-refresh t)
-(sr-speedbar-open)
+;;(sr-speedbar-open)
 #+END_SRC
 
 * YASSNIPPET

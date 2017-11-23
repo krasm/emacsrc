@@ -20,4 +20,4 @@
  ;; If there is more than one, they won't work right.
  )
 
-(org-babel-load-file (concat conf-dir "/other-init.el.org"))
+(org-babel-load-file (concat conf-dir "/emacs-customize.el.org"))

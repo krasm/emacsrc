@@ -6,9 +6,6 @@
 	path = packages/foldingmode
 	url = https://github.com/jaalto/project-emacs--folding-mode.git
 	branch = master
-[submodule "emacs-maildir"]
-	path = emacs-maildir
-	url = https://github.com/nicferrier/emacs-maildir.git
 [submodule "packages/emacs-maildir"]
 	path = packages/emacs-maildir
 	url = https://github.com/nicferrier/emacs-maildir.git

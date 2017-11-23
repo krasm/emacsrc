@@ -3,6 +3,10 @@
 ;; GLOBALS
 ;; --------------------------------------
 (defconst conf-dir "~/prj/misc/emacsrc")
+(defconst snippets-dir "~/.emacs.d/yasnippet-snippets")
+(defconst aspell "/usr/local/bin/aspell")
+
+(add-to-list 'load-path "~/prj/emacsrc/packages")
 
 ;; INSTALL PACKAGES
 ;; --------------------------------------
@@ -18,8 +22,6 @@
 
 (defvar myPackages
   '(better-defaults
-    jedi
-    elpy ;;  depends on jedi and flake8 and epc
     kotlin-mode
     lua-mode
     xcscope
@@ -41,7 +43,8 @@
 ;; --------------------------------------
 
 (setenv "DICTIONARY" "en_GB")
-(setq ispell-program-name "/usr/local/bin/aspell")
+(setq ispell-program-name aspell)
+(require 'ispell)
 
 (require 'xcscope)
 (cscope-setup)
@@ -49,11 +52,12 @@
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globally
+(display-time-mode 1)
 
 ;; sr-speedbar
-(add-to-list 'load-path "~/prj/emacsrc/packages")
+
 (require 'sr-speedbar)
-(setq 
+(setq
    sr-speedbar-right-side nil
    sr-speedbar-width-x 10
    sr-speedbar-width-console 10
@@ -64,25 +68,10 @@
 
 ;; snippets directory
 (setq yas-snippet-dirs
-      '("~/.emacs.d/yasnippet-snippets")
+      '(snippets-dir)
       )
 (yas-global-mode 1)
 
-(setq ispell-program-name "aspell")
-(require 'ispell)
-
-;; some settings for python
-(setq elpy-rpc-python-command "/usr/local/bin/python2")
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-
-(elpy-enable)
-
-(yas-global-mode 1)
-
-(display-time-mode 1)
-
-;; speedbar
 
 ;; org mode
 (global-set-key "\C-cl" 'org-store-link)

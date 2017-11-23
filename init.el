@@ -1,7 +1,10 @@
-
 (package-initialize)
 
-(defconst conf-dir "~/prj/misc/emacsrc")
+(defconst conf-dir "~/prj/emacsrc")
+(defconst snippets-dir "~/.emacs.d/yasnippet-snippets")
+(defconst packages-dir "~/prj/emacsrc/packages")
+(defconst aspell-prog "/usr/local/bin/aspell")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

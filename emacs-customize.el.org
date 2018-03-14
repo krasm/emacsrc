@@ -131,6 +131,18 @@ org mode customizations
 (setq org-src-window-setup 'current-window)
 (setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
 (setq org-directory "~/priv/org")
+#+END_SRC
+
+set org mode encryption
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'org-crypt)
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+;; GPG key to use for encryption
+;; Either the Key ID or set to nil to use symmetric encryption.
+(setq org-crypt-key nil)
 
 
 #+END_SRC
@@ -138,7 +150,6 @@ org mode customizations
 * mobile org settings
 
 #+BEGIN_SRC emacs-lisp
-(setq org-directory "~/private/org")
 (setq org-mobile-inbox-for-pull "~/private/org/inbox.org")
 (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
 (setq org-mobile-files '("~/Dropbox/org"))
@@ -206,6 +217,13 @@ Note that this overrides the default font-related keybindings from
   (hrs/reset-font-size)
 #+END_SRC
 
+* ENCRYPTION
+settings for emacs transparent encyption
+#+BEGIN_SRC emacs-lisp
+(require 'epa-file)
+(epa-file-enable)
+(setq epa-file-select-keys t)
+#+END_SRC
 * CC-MODE
 Customizations for cc-mode
 #+BEGIN_SRC emacs-lisp

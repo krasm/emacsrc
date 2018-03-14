@@ -1,4 +1,4 @@
-* GLOBAL SETTINGS~
+* GLOBAL SETTINGS
 #+BEGIN_SRC emacs-lisp
 
 (add-to-list 'load-path packages-dir)
@@ -30,6 +30,7 @@
     yaml-mode
     org-bullets
     dockerfile-mode
+    yasnippet
     ))
 
 (mapc #'(lambda (package)
@@ -132,6 +133,15 @@ org mode customizations
 (setq org-directory "~/priv/org")
 
 
+#+END_SRC
+
+* mobile org settings
+
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/private/org")
+(setq org-mobile-inbox-for-pull "~/private/org/inbox.org")
+(setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+(setq org-mobile-files '("~/Dropbox/org"))
 #+END_SRC
 
 * Set default font and configure font resizing

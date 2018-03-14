@@ -130,7 +130,7 @@ org mode customizations
 (setq org-src-tab-acts-natively t)
 (setq org-src-window-setup 'current-window)
 (setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
-(setq org-directory "~/priv/org")
+(setq org-directory "~/private/org")
 #+END_SRC
 
 set org mode encryption

@@ -1,17 +1,9 @@
-* GLOBAL SETTINGS
-#+BEGIN_SRC emacs-lisp
-
 (add-to-list 'load-path packages-dir)
-#+END_SRC
 
-
-* PACKAGES
-
-#+BEGIN_SRC emacs-lisp
 (require 'package)
 
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+	     '("melpa" . "http://melpa.org/packages/") t)
 
 (package-initialize)
 (when (not package-archive-contents)
@@ -19,71 +11,48 @@
 
 (defvar myPackages
   '(better-defaults
-    kotlin-mode
     lua-mode
     xcscope
     magit
-    solarized-theme
+    material-theme
     projectile
-    clojure-mode
-    cider
     groovy-mode
     yaml-mode
     org-bullets
     dockerfile-mode
     yasnippet
-    eclim
     elpy
-    solarized-theme
+    color-theme-solarized
     ))
 
 (mapc #'(lambda (package)
-          (unless (package-installed-p package)
-            (package-install package)))
+	  (unless (package-installed-p package)
+	    (package-install package)))
       myPackages)
-#+END_SRC
 
-* GLOBAL CUSTOMIZATION
+(setq inhibit-startup-message t) ;; hide the startup message
+(load-theme 'solarized t)
+(global-linum-mode t) ;; enable line numbers globally
+(display-time-mode 1)
 
-#+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-message t) ;; hide the startup message
-  (when (window-system)
-    (load-theme 'solarized-light t) ;; load material theme
-    )
-  (global-linum-mode t) ;; enable line numbers globally
-  (display-time-mode 1)
+;; load some defaults see https://github.com/hrs/sensible-defaults.el
+(load-file (concat conf-dir "/emacs-rc-sensible-defaults.el"))
+(sensible-defaults/use-all-settings)
+(sensible-defaults/use-all-keybindings)
+(sensible-defaults/backup-to-temp-directory)
 
-  ;; load some defaults see https://github.com/hrs/sensible-defaults.el
-  (load-file (concat conf-dir "/emacs-rc-sensible-defaults.el"))
-  (sensible-defaults/use-all-settings)
-  (sensible-defaults/use-all-keybindings)
-  (sensible-defaults/backup-to-temp-directory)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (when window-system
   (scroll-bar-mode -1))
-#+END_SRC
 
-* SPELLCHECKER
-#+BEGIN_SRC emacs-lisp
-(setq ispell-program-name (or (getenv "ASPELL_PROG") "aspell"))
+(setq ispell-program-name aspell-prog)
 (require 'ispell)
 (setenv "DICTIONARY" "en_GB")
 
-#+END_SRC
-
-* CSCOPE
-
-#+BEGIN_SRC emacs-lisp
 (require 'xcscope)
 (cscope-setup)
-#+END_SRC
 
-* SR SPEEDBAR
-#+BEGIN_SRC emacs-lisp
 (add-to-list 'load-path conf-dir)
 (require 'sr-speedbar)
 (setq
@@ -94,23 +63,12 @@
    sr-speedbar-delete-windows t
    sr-speedbar-auto-refresh t)
 ;;(sr-speedbar-open)
-#+END_SRC
 
-* YASSNIPPET
-
-Set directory to store snippets.
-#+BEGIN_SRC emacs-lisp
 (setq yas-snippet-dirs
       '(snippets-dir)
       )
 (yas-global-mode 1)
-#+END_SRC
 
-* ORG MODE
-
-org mode customizations
-
-#+BEGIN_SRC emacs-lisp
 ;; org mode
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
@@ -132,18 +90,11 @@ org mode customizations
           (lambda ()
             (org-bullets-mode t)))
 
-(setq org-ellipsis "⤵")
+(setq org-ellipsis "â¤µ")
 (setq org-src-tab-acts-natively t)
 (setq org-src-window-setup 'current-window)
-;;(setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
-(setq org-directory "~/private/org")
-(setq org-agenda-files (cons org-directory ()))
-
-#+END_SRC
-
-set org mode encryption
-
-#+BEGIN_SRC emacs-lisp
+(setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
+(setq org-directory "~/priv/org")
 
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
@@ -152,89 +103,61 @@ set org mode encryption
 ;; Either the Key ID or set to nil to use symmetric encryption.
 (setq org-crypt-key nil)
 
-
-#+END_SRC
-
-* mobile org settings
-
-#+BEGIN_SRC emacs-lisp
 (setq org-mobile-inbox-for-pull "~/private/org/inbox.org")
 (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
 (setq org-mobile-files '("~/Dropbox/org"))
-#+END_SRC
 
-* Set default font and configure font resizing
-Shamelesy stolen from https://github.com/hrs/
+(setq hrs/default-font "Consolas")
+(setq hrs/default-font-size 11)
+(setq hrs/current-font-size hrs/default-font-size)
 
-I'm partial to Inconsolata.
+(setq hrs/font-change-increment 1.1)
 
-The standard =text-scale-= functions just resize the text in the current buffer;
-I'd generally like to resize the text in /every/ buffer, and I usually want to
-change the size of the modeline, too (this is especially helpful when
-presenting). These functions and bindings let me resize everything all together!
+(defun hrs/font-code ()
+  "Return a string representing the current font (like \"Inconsolata-14\")."
+  (concat hrs/default-font "-" (number-to-string hrs/current-font-size)))
 
-Note that this overrides the default font-related keybindings from
-=sensible-defaults=.
+(defun hrs/set-font-size ()
+  "Set the font to `hrs/default-font' at `hrs/current-font-size'.
+Set that for the current frame, and also make it the default for
+other, future frames."
+  (let ((font-code (hrs/font-code)))
+    (add-to-list 'default-frame-alist (cons 'font font-code))
+    (set-frame-font font-code)))
 
-#+BEGIN_SRC emacs-lisp
-  (setq hrs/default-font "Monaco")
-  (setq hrs/default-font-size 11)
+(defun hrs/reset-font-size ()
+  "Change font size back to `hrs/default-font-size'."
+  (interactive)
   (setq hrs/current-font-size hrs/default-font-size)
+  (hrs/set-font-size))
 
-  (setq hrs/font-change-increment 1.1)
+(defun hrs/increase-font-size ()
+  "Increase current font size by a factor of `hrs/font-change-increment'."
+  (interactive)
+  (setq hrs/current-font-size
+        (ceiling (* hrs/current-font-size hrs/font-change-increment)))
+  (hrs/set-font-size))
 
-  (defun hrs/font-code ()
-    "Return a string representing the current font (like \"Inconsolata-14\")."
-    (concat hrs/default-font "-" (number-to-string hrs/current-font-size)))
+(defun hrs/decrease-font-size ()
+  "Decrease current font size by a factor of `hrs/font-change-increment', down to a minimum size of 1."
+  (interactive)
+  (setq hrs/current-font-size
+        (max 1
+             (floor (/ hrs/current-font-size hrs/font-change-increment))))
+  (hrs/set-font-size))
 
-  (defun hrs/set-font-size ()
-    "Set the font to `hrs/default-font' at `hrs/current-font-size'.
-  Set that for the current frame, and also make it the default for
-  other, future frames."
-    (let ((font-code (hrs/font-code)))
-      (add-to-list 'default-frame-alist (cons 'font font-code))
-      (set-frame-font font-code)))
+(define-key global-map (kbd "C-)") 'hrs/reset-font-size)
+(define-key global-map (kbd "C-+") 'hrs/increase-font-size)
+(define-key global-map (kbd "C-=") 'hrs/increase-font-size)
+(define-key global-map (kbd "C-_") 'hrs/decrease-font-size)
+(define-key global-map (kbd "C--") 'hrs/decrease-font-size)
 
-  (defun hrs/reset-font-size ()
-    "Change font size back to `hrs/default-font-size'."
-    (interactive)
-    (setq hrs/current-font-size hrs/default-font-size)
-    (hrs/set-font-size))
+(hrs/reset-font-size)
 
-  (defun hrs/increase-font-size ()
-    "Increase current font size by a factor of `hrs/font-change-increment'."
-    (interactive)
-    (setq hrs/current-font-size
-          (ceiling (* hrs/current-font-size hrs/font-change-increment)))
-    (hrs/set-font-size))
-
-  (defun hrs/decrease-font-size ()
-    "Decrease current font size by a factor of `hrs/font-change-increment', down to a minimum size of 1."
-    (interactive)
-    (setq hrs/current-font-size
-          (max 1
-               (floor (/ hrs/current-font-size hrs/font-change-increment))))
-    (hrs/set-font-size))
-
-  (define-key global-map (kbd "C-)") 'hrs/reset-font-size)
-  (define-key global-map (kbd "C-+") 'hrs/increase-font-size)
-  (define-key global-map (kbd "C-=") 'hrs/increase-font-size)
-  (define-key global-map (kbd "C-_") 'hrs/decrease-font-size)
-  (define-key global-map (kbd "C--") 'hrs/decrease-font-size)
-
-  (hrs/reset-font-size)
-#+END_SRC
-
-* ENCRYPTION
-settings for emacs transparent encyption
-#+BEGIN_SRC emacs-lisp
 (require 'epa-file)
 (epa-file-enable)
 (setq epa-file-select-keys t)
-#+END_SRC
-* CC-MODE
-Customizations for cc-mode
-#+BEGIN_SRC emacs-lisp
+
 (require 'cc-mode)
 
 (defconst my-cc-style
@@ -257,18 +180,6 @@ Customizations for cc-mode
             (flyspell-prog-mode)
             ))
 
-#+END_SRC
-
-* java mode
-#BEGIN_SRC emacs-lisp
-(custom-set-variables
-  '(eclim-eclipse-dirs '("~/opt/sts-bundle/sts-3.9.0-RELEASE")))
-(require 'eclim)
-(add-hook 'java-mode-hook 'eclim-mode)
-#END_SRC
-* NXML MODE
-  Customizations for handling XML
-#+BEGIN_SRC emacs-lisp
 (require 'nxml-mode)
 
 ;; based on alex ott nxml mode
@@ -305,47 +216,27 @@ Customizations for cc-mode
                ""
                nil))
 
-
-#+END_SRC
-* EMACS SERVER
-
-Start emacs server if not started yet.
-
-#+BEGIN_SRC emacs-lisp
 (unless (string-equal "root" (getenv "USER"))
   (require 'server)
   (if (and (fboundp 'server-running-p)
 	   (not (server-running-p)))
       (server-start))
   )
-#+END_SRC
 
-* YAML MODE
-
-Settings for yaml editing
-
-#+BEGIN_SRC emacs-lisp
 ;; yaml mode
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-hook 'yaml-mode-hook
 	  (lambda ()
 	    (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
-#+END_SRC
 
-* MISC FUNCTIONS
-** format JSON
-#+BEGIN_SRC emacs-lisp
 (defun json-format ()
   (interactive)
   (save-excursion
     (shell-command-on-region (mark) (point) "python -m json.tool" (buffer-name) t)
     )
   )
-#+END_SRC
 
-** transpose windows
-#+BEGIN_SRC emacs-lisp
 (defun rotate-windows ()
   "Rotate your windows"
   (interactive)
@@ -367,10 +258,7 @@ Settings for yaml editing
           (set-window-start w1 s2)
           (set-window-start w2 s1)
           (setq i (1+ i))))))))
-#+END_SRC
 
-** toggle window split
-#+BEGIN_SRC emacs-lisp
 (defun toggle-window-split ()
   (interactive)
   (if (= (count-windows) 2)
@@ -395,11 +283,7 @@ Settings for yaml editing
           (set-window-buffer (next-window) next-win-buffer)
           (select-window first-win)
           (if this-win-2nd (other-window 1))))))
-#+END_SRC
 
-** toggle full screen on X11
-not sure if I am using it anymore
-#+BEGIN_SRC emacs-lisp
 (defun toggle-fullscreen ()
   "Toggle full screen on X11"
   (interactive)
@@ -409,11 +293,7 @@ not sure if I am using it anymore
      (when (not (frame-parameter nil 'fullscreen)) 'fullboth))))
 
 (global-set-key [f11] 'toggle-fullscreen)
-#+END_SRC
 
-** rename file and buffer
-rename file opened in emacs and buffer associated with that file
-#+BEGIN_SRC emacs-lisp
 ;; rename buffer and file opened in emacs
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
@@ -437,11 +317,7 @@ rename file opened in emacs and buffer associated with that file
   (interactive "p")
   (other-window (- (or n 1)))
 )
-#+END_SRC
 
-* KEYBINDINGS
-
-#+BEGIN_SRC emacs-lisp
 ;; global keybindings
 (global-set-key (kbd "C-x  C-g") 'goto-line)
 
@@ -455,4 +331,3 @@ rename file opened in emacs and buffer associated with that file
 (global-set-key "\M-\C-?" 'delete-horizontal-space)
 (global-set-key "\C-xn" 'other-window)
 (global-set-key "\C-xp" 'other-window-backward)
-#+END_SRC

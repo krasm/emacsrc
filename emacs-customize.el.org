@@ -22,7 +22,7 @@
     lua-mode
     xcscope
     magit
-    material-theme
+    solarized-theme
     projectile
     clojure-mode
     cider
@@ -42,16 +42,18 @@
 * GLOBAL CUSTOMIZATION
 
 #+BEGIN_SRC emacs-lisp
-(setq inhibit-startup-message t) ;; hide the startup message
-(load-theme 'material t) ;; load material theme
-(global-linum-mode t) ;; enable line numbers globally
-(display-time-mode 1)
+  (setq inhibit-startup-message t) ;; hide the startup message
+  (when (window-system)
+    (load-theme 'solarized-light t) ;; load material theme
+    )
+  (global-linum-mode t) ;; enable line numbers globally
+  (display-time-mode 1)
 
-;; load some defaults see https://github.com/hrs/sensible-defaults.el
-(load-file (concat conf-dir "/emacs-rc-sensible-defaults.el"))
-(sensible-defaults/use-all-settings)
-(sensible-defaults/use-all-keybindings)
-(sensible-defaults/backup-to-temp-directory)
+  ;; load some defaults see https://github.com/hrs/sensible-defaults.el
+  (load-file (concat conf-dir "/emacs-rc-sensible-defaults.el"))
+  (sensible-defaults/use-all-settings)
+  (sensible-defaults/use-all-keybindings)
+  (sensible-defaults/backup-to-temp-directory)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp

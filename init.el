@@ -1,6 +1,6 @@
 (package-initialize)
 
-;;(defconst conf-dir 'user-emacs-directory)
+(defconst conf-dir (getenv "EMACS_CONF_DIR"))
 (defconst snippets-dir "~/.emacs.d/yasnippet-snippets")
 (defconst packages-dir "~/prj/emacsrc/packages")
 (defconst aspell-prog "/usr/bin/aspell")

@@ -4,6 +4,7 @@
 (add-to-list 'load-path packages-dir)
 #+END_SRC
 
+
 * PACKAGES
 
 #+BEGIN_SRC emacs-lisp
@@ -31,6 +32,9 @@
     org-bullets
     dockerfile-mode
     yasnippet
+    eclim
+    elpy
+    solarized-theme
     ))
 
 (mapc #'(lambda (package)
@@ -43,7 +47,7 @@
 
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t) ;; hide the startup message
-(load-theme 'material t) ;; load material theme
+(load-theme 'solarized-light t)
 (global-linum-mode t) ;; enable line numbers globally
 (display-time-mode 1)
 
@@ -63,7 +67,7 @@
 
 * SPELLCHECKER
 #+BEGIN_SRC emacs-lisp
-(setq ispell-program-name aspell-prog)
+(setq ispell-program-name (or (getenv "ASPELL_PROG") "aspell"))
 (require 'ispell)
 (setenv "DICTIONARY" "en_GB")
 
@@ -129,8 +133,10 @@ org mode customizations
 (setq org-ellipsis "⤵")
 (setq org-src-tab-acts-natively t)
 (setq org-src-window-setup 'current-window)
-(setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
+;;(setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
 (setq org-directory "~/private/org")
+(setq org-agenda-files (cons org-directory ()))
+
 #+END_SRC
 
 set org mode encryption
@@ -251,6 +257,13 @@ Customizations for cc-mode
 
 #+END_SRC
 
+* java mode
+#BEGIN_SRC emacs-lisp
+(custom-set-variables
+  '(eclim-eclipse-dirs '("~/opt/sts-bundle/sts-3.9.0-RELEASE")))
+(require 'eclim)
+(add-hook 'java-mode-hook 'eclim-mode)
+#END_SRC
 * NXML MODE
   Customizations for handling XML
 #+BEGIN_SRC emacs-lisp

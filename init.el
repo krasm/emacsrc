@@ -3,7 +3,6 @@
 (defconst conf-dir "~/prj/emacsrc")
 (defconst snippets-dir "~/.emacs.d/yasnippet-snippets")
 (defconst packages-dir "~/prj/emacsrc/packages")
-(defconst aspell-prog "/usr/bin/aspell")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -14,6 +13,9 @@
  '(nxml-auto-insert-xml-declaration-flag t)
  '(nxml-bind-meta-tab-to-complete-flag t)
  '(nxml-slash-auto-complete-flag t)
+ '(org-agenda-files
+   (quote
+    ("/home/krasm/private/org/books.org" "/home/krasm/private/org/gym.org" "/home/krasm/private/org/kasa.org" "/home/krasm/private/org/todo.org")))
  '(package-selected-packages
    (quote
     (dockerfile-mode yaml-mode xcscope projectile material-theme magit lua-mode kotlin-mode jedi groovy-mode elpy cider better-defaults))))

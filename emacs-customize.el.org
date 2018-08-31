@@ -8,39 +8,39 @@
 * PACKAGES
 
 #+BEGIN_SRC emacs-lisp
-(require 'package)
+  (require 'package)
 
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+  (add-to-list 'package-archives
+	       '("melpa" . "http://melpa.org/packages/") t)
 
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
+  (package-initialize)
+  (when (not package-archive-contents)
+    (package-refresh-contents))
 
-(defvar myPackages
-  '(better-defaults
-    kotlin-mode
-    lua-mode
-    xcscope
-    magit
-    solarized-theme
-    projectile
-    clojure-mode
-    cider
-    groovy-mode
-    yaml-mode
-    org-bullets
-    dockerfile-mode
-    yasnippet
-    eclim
-    elpy
-    solarized-theme
-    ))
+  (defvar myPackages
+    '(better-defaults
+      kotlin-mode
+      lua-mode
+      xcscope
+      magit
+      solarized-theme
+      projectile
+      clojure-mode
+      cider
+      groovy-mode
+      yaml-mode
+      org-bullets
+      dockerfile-mode
+      yasnippet
+      eclim
+      elpy
+      auto-complete
+      ))
 
-(mapc #'(lambda (package)
-          (unless (package-installed-p package)
-            (package-install package)))
-      myPackages)
+  (mapc #'(lambda (package)
+	    (unless (package-installed-p package)
+	      (package-install package)))
+	myPackages)
 #+END_SRC
 
 * GLOBAL CUSTOMIZATION
@@ -77,9 +77,17 @@
 
 * CSCOPE
 
+
 #+BEGIN_SRC emacs-lisp
 (require 'xcscope)
 (cscope-setup)
+#+END_SRC
+
+* AUTOCOMPLETE
+
+  Settings for autocomplete.
+#+BEGIN_SRC emacs-lisp
+(ac-config-default)
 #+END_SRC
 
 * SR SPEEDBAR

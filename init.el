@@ -18,7 +18,7 @@
     ("/home/krasm/private/org/books.org" "/home/krasm/private/org/gym.org" "/home/krasm/private/org/kasa.org" "/home/krasm/private/org/todo.org")))
  '(package-selected-packages
    (quote
-    (dockerfile-mode yaml-mode xcscope projectile material-theme magit lua-mode kotlin-mode jedi groovy-mode elpy cider better-defaults))))
+    (auto-complete dockerfile-mode yaml-mode xcscope projectile material-theme magit lua-mode kotlin-mode jedi groovy-mode elpy cider better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

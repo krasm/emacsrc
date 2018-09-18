@@ -4,7 +4,6 @@
 (add-to-list 'load-path packages-dir)
 #+END_SRC
 
-
 * PACKAGES
 
 #+BEGIN_SRC emacs-lisp
@@ -119,33 +118,34 @@ Set directory to store snippets.
 org mode customizations
 
 #+BEGIN_SRC emacs-lisp
-;; org mode
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-iswitchb)
+  ;; org mode
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-cb" 'org-iswitchb)
 
-(defun my/org-mode-hook ()
-  "Stop the org-level headers from increasing in height relative to the other text."
-  (dolist (face '(org-level-1
-                  org-level-2
-                  org-level-3
-                  org-level-4
-                  org-level-5))
-    (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
+  (defun my/org-mode-hook ()
+    "Stop the org-level headers from increasing in height relative to the other text."
+    (dolist (face '(org-level-1
+		    org-level-2
+		    org-level-3
+		    org-level-4
+		    org-level-5))
+      (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
 
-(add-hook 'org-mode-hook 'my/org-mode-hook)
+  (add-hook 'org-mode-hook 'my/org-mode-hook)
 
-(add-hook 'org-mode-hook
-          (lambda ()
-            (org-bullets-mode t)))
+  (add-hook 'org-mode-hook
+	    (lambda ()
+	      (org-bullets-mode t)))
 
-(setq org-ellipsis "⤵")
-(setq org-src-tab-acts-natively t)
-(setq org-src-window-setup 'current-window)
-;;(setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
-(setq org-directory "~/private/org")
-(setq org-agenda-files (cons org-directory ()))
+  (setq org-ellipsis "⤵")
+  (setq org-src-tab-acts-natively t)
+  (setq org-src-window-setup 'current-window)
+
+  ;;(setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
+  (setq org-directory "d:/priv/org")
+  (setq org-agenda-files (cons org-directory ()))
 
 #+END_SRC
 
@@ -166,9 +166,9 @@ set org mode encryption
 * mobile org settings
 
 #+BEGIN_SRC emacs-lisp
-(setq org-mobile-inbox-for-pull "~/private/org/inbox.org")
-(setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
-(setq org-mobile-files '("~/Dropbox/org"))
+  (setq org-mobile-directory (concat (getenv "DROPBOX_HOME") "/Apps/MobileOrg"))
+  (setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
+  (setq org-mobile-files (concat (getenv "DROPBOX_HOME") "/org"))
 #+END_SRC
 
 * Set default font and configure font resizing
@@ -185,7 +185,7 @@ Note that this overrides the default font-related keybindings from
 =sensible-defaults=.
 
 #+BEGIN_SRC emacs-lisp
-  (setq hrs/default-font "Monaco")
+  (setq hrs/default-font "Consolas")
   (setq hrs/default-font-size 11)
   (setq hrs/current-font-size hrs/default-font-size)
 

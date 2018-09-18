@@ -16,6 +16,7 @@
  '(org-agenda-files
    (quote
     ("/home/krasm/private/org/books.org" "/home/krasm/private/org/gym.org" "/home/krasm/private/org/kasa.org" "/home/krasm/private/org/todo.org")))
+ '(org-mobile-files "d:\\priv\\org")
  '(package-selected-packages
    (quote
     (auto-complete dockerfile-mode yaml-mode xcscope projectile material-theme magit lua-mode kotlin-mode jedi groovy-mode elpy cider better-defaults))))

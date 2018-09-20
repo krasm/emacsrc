@@ -4,7 +4,6 @@
 (add-to-list 'load-path packages-dir)
 #+END_SRC
 
-
 * PACKAGES
 
 #+BEGIN_SRC emacs-lisp
@@ -43,7 +42,8 @@
 	myPackages)
 #+END_SRC
 
-* GLOBAL CUSTOMIZATION
+* GLOBAL CUSTOMIZ
+ATION
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t) ;; hide the startup message

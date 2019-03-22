@@ -34,6 +34,8 @@
       eclim
       elpy
       auto-complete
+      evil
+      powerline
       ))
 
   (mapc #'(lambda (package)
@@ -42,8 +44,7 @@
 	myPackages)
 #+END_SRC
 
-* GLOBAL CUSTOMIZ
-ATION
+* GLOBAL CUSTOMIZATION
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t) ;; hide the startup message
@@ -58,6 +59,13 @@ ATION
   (sensible-defaults/use-all-settings)
   (sensible-defaults/use-all-keybindings)
   (sensible-defaults/backup-to-temp-directory)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(require 'evil)
+(evil-mode 1)
+(require 'powerline)
+(powerline-center-evil-theme)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -448,6 +456,22 @@ rename file opened in emacs and buffer associated with that file
 )
 #+END_SRC
 
+* MUTT
+#+BEGIN_SRC emacs-lisp
+; corrector
+(add-hook 'mail-mode-hook 'flyspell-mode)
+
+; Do not cut words
+(global-visual-line-mode t)
+
+; open mail-mode when emacs is invoked by mutt                                
+(add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
+
+; wrap email body
+(add-hook 'mail-mode-hook 'turn-on-auto-fill)
+(add-hook 'mail-mode-hook 'turn-on-filladapt-mode)
+#+END_SRC
+#
 * KEYBINDINGS
 
 #+BEGIN_SRC emacs-lisp

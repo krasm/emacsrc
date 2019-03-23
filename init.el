@@ -2,7 +2,7 @@
 
 (defconst conf-dir (getenv "EMACS_CONF_DIR"))
 (defconst snippets-dir "~/.emacs.d/yasnippet-snippets")
-(defconst packages-dir "~/prj/emacsrc/packages")
+(defconst packages-dir (concat conf-dir "/packages"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

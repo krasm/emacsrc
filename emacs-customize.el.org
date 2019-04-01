@@ -152,8 +152,8 @@ org mode customizations
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
 
-  ;;(setq org-mobile-directory "/scp:krasm@krasm.net:~/org/")
-  (setq org-directory "d:/priv/org")
+  ;;(setq org-mobile-directory "/scp:msk@www.krasm.net:/var/www/dav/org/")
+  (setq org-directory (concat (getenv "HOME") "/private/org"))
   (setq org-agenda-files (cons org-directory ()))
 
 #+END_SRC
@@ -175,9 +175,10 @@ set org mode encryption
 * mobile org settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-mobile-directory (concat (getenv "DROPBOX_HOME") "/Apps/MobileOrg"))
+  ;;(setq org-mobile-directory (concat (getenv "DROPBOX_HOME") "/Apps/MobileOrg"))
+  (setq org-mobile-directory "/scp:msk@www.krasm.net:/var/www/dav/org/")
   (setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
-  (setq org-mobile-files (concat (getenv "DROPBOX_HOME") "/org"))
+  (setq org-mobile-files org-agenda-files)
 #+END_SRC
 
 * Set default font and configure font resizing
@@ -464,7 +465,7 @@ rename file opened in emacs and buffer associated with that file
 ; Do not cut words
 (global-visual-line-mode t)
 
-; open mail-mode when emacs is invoked by mutt                                
+; open mail-mode when emacs is invoked by mutt
 (add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
 
 ; wrap email body

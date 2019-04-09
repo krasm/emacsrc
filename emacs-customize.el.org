@@ -62,6 +62,7 @@
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
+  (setq evil-want-C-i-jump nil)
   (require 'evil)
   (evil-mode 1)
   (require 'powerline)
@@ -91,19 +92,19 @@
 
 #+END_SRC
 
+* AUTOCOMPLETE
+
+  Settings for autocomplete.
+#+BEGIN_SRC emacs-lisp
+(ac-config-default)
+#+END_SRC
+
 * CSCOPE
 
 
 #+BEGIN_SRC emacs-lisp
 (require 'xcscope)
 (cscope-setup)
-#+END_SRC
-
-* AUTOCOMPLETE
-
-  Settings for autocomplete.
-#+BEGIN_SRC emacs-lisp
-(ac-config-default)
 #+END_SRC
 
 * SR SPEEDBAR

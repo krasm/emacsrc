@@ -59,6 +59,7 @@
   (sensible-defaults/use-all-settings)
   (sensible-defaults/use-all-keybindings)
   (sensible-defaults/backup-to-temp-directory)
+  (add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp

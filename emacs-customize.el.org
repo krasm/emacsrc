@@ -18,24 +18,16 @@
 
   (defvar myPackages
     '(better-defaults
-      kotlin-mode
-      lua-mode
       xcscope
       magit
       solarized-theme
       projectile
-      clojure-mode
-      cider
-      groovy-mode
       yaml-mode
       org-bullets
       dockerfile-mode
       yasnippet
-      eclim
-      elpy
       auto-complete
-      evil
-      powerline
+      elpa
       ))
 
   (mapc #'(lambda (package)
@@ -63,27 +55,16 @@
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (setq evil-want-C-i-jump nil)
-  (setq evil-toggle-key "C-`")
-  (require 'evil)
-  (evil-mode 1)
-  (require 'powerline)
-  (powerline-center-evil-theme)
-
-
-  (defun my-move-key (keymap-from keymap-to key)
-       "Moves key binding from one keymap to another, deleting from the old location. "
-       (define-key keymap-to key (lookup-key keymap-from key))
-       (define-key keymap-from key nil))
-  (my-move-key evil-motion-state-map evil-normal-state-map (kbd "RET"))
-  (my-move-key evil-motion-state-map evil-normal-state-map " ")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (when window-system
   (scroll-bar-mode -1))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(require 'projectile)
+(projectile-global-mode)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 #+END_SRC
 
 * SPELLCHECKER

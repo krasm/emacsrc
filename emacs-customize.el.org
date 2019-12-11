@@ -40,9 +40,7 @@
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t) ;; hide the startup message
-  (when (window-system)
-    (load-theme 'solarized-light t) ;; load material theme
-    )
+  (load-theme 'solarized-light t) ;; load material theme
   (global-linum-mode t) ;; enable line numbers globally
   (display-time-mode 1)
 
@@ -271,15 +269,18 @@ Customizations for cc-mode
 
 * java mode
 
-#BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (custom-set-variables
   '(eclim-eclipse-dirs '("~/opt/sts-bundle/sts-3.9.0-RELEASE")))
 (require 'eclim)
 (add-hook 'java-mode-hook 'eclim-mode)
-#END_SRC
+#+END_SRC
 * ELPY
+#+BEGIN_SRC emacs-lisp
 (require 'elpy)
 (setq elpy-rpc-python-command "/usr/bin/python3")
+(setq python-shell-interpreter "/usr/bin/python3")
+#+END_SRC
 * NXML MODE
   Customizations for handling XML
 #+BEGIN_SRC emacs-lisp

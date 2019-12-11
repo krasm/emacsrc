@@ -18,7 +18,7 @@
  '(nxml-slash-auto-complete-flag t)
  '(package-selected-packages
    (quote
-    (powerline yaml-mode xcscope solarized-theme projectile org-bullets magit evil elpy dockerfile-mode better-defaults auto-complete))))
+    (elpy yasnippet yaml-mode xcscope solarized-theme projectile org-bullets magit dockerfile-mode better-defaults auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

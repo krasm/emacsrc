@@ -29,6 +29,7 @@
       auto-complete
       elpy
       lua-mode
+     eclim
       ))
 
   (mapc #'(lambda (package)
@@ -40,17 +41,18 @@
 * GLOBAL CUSTOMIZATION
 
 #+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-message t) ;; hide the startup message
-  (load-theme 'solarized-light t) ;; load material theme
-  (global-linum-mode t) ;; enable line numbers globally
-  (display-time-mode 1)
+    (setq inhibit-startup-message t) ;; hide the startup message
+    (load-theme 'solarized-light t) ;; load material theme
+    (global-linum-mode t) ;; enable line numbers globally
+    (display-time-mode 1)
 
-  ;; load some defaults see https://github.com/hrs/sensible-defaults.el
-  (load-file (concat conf-dir "/emacs-rc-sensible-defaults.el"))
-  (sensible-defaults/use-all-settings)
-  (sensible-defaults/use-all-keybindings)
-  (sensible-defaults/backup-to-temp-directory)
-  (add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
+    ;; load some defaults see https://github.com/hrs/sensible-defaults.el
+    (load-file (concat conf-dir "/emacs-rc-sensible-defaults.el"))
+    (sensible-defaults/use-all-settings)
+    (sensible-defaults/use-all-keybindings)
+    (sensible-defaults/backup-to-temp-directory)
+    (add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
+    (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp

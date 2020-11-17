@@ -460,21 +460,34 @@ rename file opened in emacs and buffer associated with that file
 
 * MUTT
 #+BEGIN_SRC emacs-lisp
-; corrector
-(add-hook 'mail-mode-hook 'flyspell-mode)
+					      ; corrector
+    (add-hook 'mail-mode-hook 'flyspell-mode)
+    (add-hook 'message-mode-hook 'flyspell-mode)
+					      ; Do not cut words
+    (global-visual-line-mode t)
 
-; Do not cut words
-(global-visual-line-mode t)
+					    ; open mail-mode when emacs is invoked by mutt
+    ;; (add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
+    (add-to-list 'auto-mode-alist '(".*mutt.*" . message-mode))
+    (setq mail-header-separator "")
+    (add-hook 'message-mode-hook
+	      'turn-on-auto-fill
+	      (function
+	       (lambda ()
+		 (progn
+		   (local-unset-key "\C-c\C-c")
+		   (define-key message-mode-map "\C-c\C-c" '(lambda ()
+							      "save and exit quickly"
+							      (interactive)
+							      (save-buffer)
+							      (server-edit)))))))
 
-; open mail-mode when emacs is invoked by mutt
-(add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
-
-; wrap email body
-(add-hook 'mail-mode-hook 'turn-on-auto-fill)
-(add-hook 'mail-mode-hook 'turn-on-filladapt-mode)
+					      ; wrap email body
+      (add-hook 'mail-mode-hook 'turn-on-auto-fill)
+      (add-hook 'mail-mode-hook 'turn-on-filladapt-mode)
 #+END_SRC
 #
-* KEYBINDINGS
+* KEYBINDING`S
 
 #+BEGIN_SRC emacs-lisp
 ;; global keybindings

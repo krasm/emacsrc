@@ -1,4 +1,7 @@
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(if (< emacs-major-version 27)
+    (package-initialize)
+  )
 
 (defconst conf-dir (getenv "EMACS_CONF_DIR"))
 (defconst snippets-dir "~/.emacs.d/yasnippet-snippets")

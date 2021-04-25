@@ -29,7 +29,7 @@
       auto-complete
       elpy
       lua-mode
-     eclim
+      eclim
       ))
 
   (mapc #'(lambda (package)
@@ -42,8 +42,9 @@
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t) ;; hide the startup message
-  (when (display-graphic-p)
-    (load-theme 'solarized-light t) ;; load material theme
+  (if (display-graphic-p)
+    (load-theme 'solarized-light t) ;; load solarized theme
+    (load-theme 'solarized-light-high-contrast t)
     )
   (global-linum-mode t) ;; enable line numbers globally
   (display-time-mode 1)
@@ -147,7 +148,6 @@ org mode customizations
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
 
-  ;;(setq org-mobile-directory "/scp:msk@www.krasm.net:/var/www/dav/org/")
   (setq org-directory (concat (getenv "HOME") "/private/org"))
   (setq org-agenda-files (cons org-directory ()))
 
@@ -170,8 +170,7 @@ set org mode encryption
 * mobile org settings
 
 #+BEGIN_SRC emacs-lisp
-  ;;(setq org-mobile-directory (concat (getenv "DROPBOX_HOME") "/Apps/MobileOrg"))
-  (setq org-mobile-directory "/scp:msk@www.krasm.net:/var/www/dav/org/")
+  (setq org-mobile-directory "/home/krasm/dav/org")
   (setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
   (setq org-mobile-files org-agenda-files)
 #+END_SRC

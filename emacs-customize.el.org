@@ -30,6 +30,7 @@
       elpy
       lua-mode
       eclim
+      restclient
       ))
 
   (mapc #'(lambda (package)

@@ -29,7 +29,6 @@
       auto-complete
       elpy
       lua-mode
-      eclim
       restclient
       ))
 
@@ -291,15 +290,6 @@ Customizations for cc-mode
             ))
 
 #+END_SRC
-
-* java mode
-
-#BEGIN_SRC emacs-lisp
-(custom-set-variables
-  '(eclim-eclipse-dirs '("~/opt/sts-bundle/sts-3.9.0-RELEASE")))
-(require 'eclim)
-(add-hook 'java-mode-hook 'eclim-mode)
-#END_SRC
 
 * ELPY
 #+BEGIN_SRC emacs-lisp

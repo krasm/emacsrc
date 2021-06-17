@@ -43,8 +43,9 @@
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t) ;; hide the startup message
-  (when (display-graphic-p)
-    (load-theme 'solarized-light t) ;; load material theme
+  (if (display-graphic-p)
+    (load-theme 'solarized-light t) ;; load solarized theme
+    (load-theme 'solarized-light-high-contrast t)
     )
   (global-linum-mode t) ;; enable line numbers globally
   (display-time-mode 1)
@@ -151,11 +152,31 @@ org mode customizations
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
 
-  ;;(setq org-mobile-directory "/scp:msk@www.krasm.net:/var/www/dav/org/")
-  (setq org-directory (concat (getenv "HOME") "/private/org"))
+  (setq org-directory (concat (getenv "HOME") "/private/org/"))
   (setq org-agenda-files (cons org-directory ()))
 
+  (setq org-capture-templates
+	'(("t" "todo" entry (file+headline "/home/krasm/private/org/todo.org" "Tasks")
+	   "* TODO [#A] %?")))
+
+
+    ;;set priority range from A to C with default A
+    (setq org-highest-priority ?A)
+    (setq org-lowest-priority ?C)
+    (setq org-default-priority ?A)
+
+    ;;set colours for priorities
+    (setq org-priority-faces '((?A . (:foreground "#F0DFAF" :weight bold))
+			       (?B . (:foreground "LightSteelBlue"))
+			       (?C . (:foreground "OliveDrab"))))
+
+    ;;open agenda in current window
+    (setq org-agenda-window-setup (quote current-window))
+
 #+END_SRC
+
+#+RESULTS:
+: current-window
 
 set org mode encryption
 
@@ -174,9 +195,9 @@ set org mode encryption
 * mobile org settings
 
 #+BEGIN_SRC emacs-lisp
-  ;;(setq org-mobile-directory (concat (getenv "DROPBOX_HOME") "/Apps/MobileOrg"))
-  (setq org-mobile-directory "/scp:msk@www.krasm.net:/var/www/dav/org/")
-  (setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
+  (setq org-mobile-directory (concat (getenv "HOME") "/nextcloud/org"))
+  ;;(setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
+  (setq org-mobile-inbox-for-pull (concat (getenv "HOME") "/tmp/inbox.org"))
   (setq org-mobile-files org-agenda-files)
 #+END_SRC
 
@@ -273,15 +294,6 @@ Customizations for cc-mode
             ))
 
 #+END_SRC
-
-* java mode
-
-#BEGIN_SRC emacs-lisp
-(custom-set-variables
-  '(eclim-eclipse-dirs '("~/opt/sts-bundle/sts-3.9.0-RELEASE")))
-(require 'eclim)
-(add-hook 'java-mode-hook 'eclim-mode)
-#END_SRC
 
 * ELPY
 #+BEGIN_SRC emacs-lisp

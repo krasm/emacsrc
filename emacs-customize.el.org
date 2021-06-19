@@ -170,7 +170,7 @@ set org mode encryption
 * mobile org settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-mobile-directory "/home/krasm/dav/org")
+  (setq org-mobile-directory (concat (getenv "HOME") "/dav/org"))
   (setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
   (setq org-mobile-files org-agenda-files)
 #+END_SRC

@@ -31,6 +31,7 @@
       lua-mode
       go-mode
       restclient
+      evil
       ))
 
   (mapc #'(lambda (package)
@@ -63,10 +64,15 @@
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(when window-system
-  (scroll-bar-mode -1))
+  (require 'evil)
+  (evil-mode 1)
+#+END_SRC
+
+  ,#+BEGIN_SRC emacs-lisp
+    (tool-bar-mode 0)
+    (menu-bar-mode 0)
+    (when window-system
+      (scroll-bar-mode -1))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -127,51 +133,51 @@ Set directory to store snippets.
 org mode customizations
 
 #+BEGIN_SRC emacs-lisp
-  ;; org mode
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-cb" 'org-iswitchb)
+    ;; org mode
+    (global-set-key "\C-cl" 'org-store-link)
+    (global-set-key "\C-ca" 'org-agenda)
+    (global-set-key "\C-cc" 'org-capture)
+    (global-set-key "\C-cb" 'org-iswitchb)
 
-  (defun my/org-mode-hook ()
-    "Stop the org-level headers from increasing in height relative to the other text."
-    (dolist (face '(org-level-1
-		    org-level-2
-		    org-level-3
-		    org-level-4
-		    org-level-5))
-      (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
+    (defun my/org-mode-hook ()
+      "Stop the org-level headers from increasing in height relative to the other text."
+      (dolist (face '(org-level-1
+		      org-level-2
+		      org-level-3
+		      org-level-4
+		      org-level-5))
+	(set-face-attribute face nil :weight 'semi-bold :height 1.0)))
 
-  (add-hook 'org-mode-hook 'my/org-mode-hook)
+    (add-hook 'org-mode-hook 'my/org-mode-hook)
 
-  (add-hook 'org-mode-hook
-	    (lambda ()
-	      (org-bullets-mode t)))
+    (add-hook 'org-mode-hook
+	      (lambda ()
+		(org-bullets-mode t)))
 
-  (setq org-ellipsis "⤵")
-  (setq org-src-tab-acts-natively t)
-  (setq org-src-window-setup 'current-window)
+    (setq org-ellipsis "⤵")
+    (setq org-src-tab-acts-natively t)
+    (setq org-src-window-setup 'current-window)
 
-  (setq org-directory (concat (getenv "HOME") "/private/org/"))
-  (setq org-agenda-files (cons org-directory ()))
+    (setq org-directory (concat (getenv "HOME") "/private/org/"))
+    (setq org-agenda-files (cons org-directory ()))
 
-  (setq org-capture-templates
-	'(("t" "todo" entry (file+headline "/home/krasm/private/org/todo.org" "Tasks")
-	   "* TODO [#A] %?")))
+    (setq org-capture-templates
+	  '(("t" "todo" entry (file+headline (concat org-directory "/todo.org") "Tasks")
+	     "* TODO [#A] %?")))
 
 
-    ;;set priority range from A to C with default A
-    (setq org-highest-priority ?A)
-    (setq org-lowest-priority ?C)
-    (setq org-default-priority ?A)
+      ;;set priority range from A to C with default A
+      (setq org-highest-priority ?A)
+      (setq org-lowest-priority ?C)
+      (setq org-default-priority ?A)
 
-    ;;set colours for priorities
-    (setq org-priority-faces '((?A . (:foreground "#F0DFAF" :weight bold))
-			       (?B . (:foreground "LightSteelBlue"))
-			       (?C . (:foreground "OliveDrab"))))
+      ;;set colours for priorities
+      (setq org-priority-faces '((?A . (:foreground "#F0DFAF" :weight bold))
+				 (?B . (:foreground "LightSteelBlue"))
+				 (?C . (:foreground "OliveDrab"))))
 
-    ;;open agenda in current window
-    (setq org-agenda-window-setup (quote current-window))
+      ;;open agenda in current window
+      (setq org-agenda-window-setup (quote current-window))
 
 #+END_SRC
 

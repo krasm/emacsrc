@@ -32,6 +32,7 @@
       go-mode
       restclient
       evil
+      lsp-java
       ))
 
   (mapc #'(lambda (package)
@@ -45,8 +46,7 @@
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t) ;; hide the startup message
   (if (display-graphic-p)
-    (load-theme 'solarized-light t) ;; load solarized theme
-    (load-theme 'solarized-light-high-contrast t)
+      (load-theme 'solarized-light t) ;; load solarized theme
     )
   (global-linum-mode t) ;; enable line numbers globally
   (display-time-mode 1)
@@ -299,6 +299,12 @@ Customizations for cc-mode
             (flyspell-prog-mode)
             ))
 
+#+END_SRC
+
+* JAVA (LSP-JAVA)
+#+BEGIN_SRC emacs-lisp
+  (require 'lsp-java)
+(add-hook 'java-mode-hook #'lsp)
 #+END_SRC
 
 * ELPY

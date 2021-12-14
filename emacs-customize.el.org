@@ -6,11 +6,17 @@
 
 * PACKAGES
 
-#+BEGIN_SRC emacs-lisp
-  (require 'package)
 
-  (add-to-list 'package-archives
-	       '("melpa" . "http://melpa.org/packages/") t)
+
+#+BEGIN_SRC emacs-lisp
+
+  (require 'package)
+  (setq local-elpa-mirror (getenv  "LOCAL_ELPA_MIRROR"))
+  
+  (if local-elpa-mirror
+  (setq package-archives '(("myelpa"  .  "d:\\misc\\myelpa")))
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")))
+  )
 
   (package-initialize)
   (when (not package-archive-contents)
@@ -30,6 +36,7 @@
       elpy
       lua-mode
       eclim
+      restclient
       ))
 
   (mapc #'(lambda (package)

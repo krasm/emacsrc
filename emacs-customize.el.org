@@ -35,7 +35,10 @@
       auto-complete
       elpy
       lua-mode
-      eclim
+      go-mode
+      restclient
+      evil
+      lsp-java
       ))
 
   (mapc #'(lambda (package)
@@ -49,8 +52,7 @@
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t) ;; hide the startup message
   (if (display-graphic-p)
-    (load-theme 'solarized-light t) ;; load solarized theme
-    (load-theme 'solarized-light-high-contrast t)
+      (load-theme 'solarized-light t) ;; load solarized theme
     )
   (global-linum-mode t) ;; enable line numbers globally
   (display-time-mode 1)
@@ -62,13 +64,21 @@
   (sensible-defaults/backup-to-temp-directory)
   (add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
   (global-set-key (kbd "C-x g") 'magit-status)
+
+  ;; add separator to lin num mode
+  (setq linum-format "%4d \u2502")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(when window-system
-  (scroll-bar-mode -1))
+  (require 'evil)
+  (evil-mode 1)
+#+END_SRC
+
+  ,#+BEGIN_SRC emacs-lisp
+    (tool-bar-mode 0)
+    (menu-bar-mode 0)
+    (when window-system
+      (scroll-bar-mode -1))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -129,35 +139,56 @@ Set directory to store snippets.
 org mode customizations
 
 #+BEGIN_SRC emacs-lisp
-  ;; org mode
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-cb" 'org-iswitchb)
+    ;; org mode
+    (global-set-key "\C-cl" 'org-store-link)
+    (global-set-key "\C-ca" 'org-agenda)
+    (global-set-key "\C-cc" 'org-capture)
+    (global-set-key "\C-cb" 'org-iswitchb)
 
-  (defun my/org-mode-hook ()
-    "Stop the org-level headers from increasing in height relative to the other text."
-    (dolist (face '(org-level-1
-		    org-level-2
-		    org-level-3
-		    org-level-4
-		    org-level-5))
-      (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
+    (defun my/org-mode-hook ()
+      "Stop the org-level headers from increasing in height relative to the other text."
+      (dolist (face '(org-level-1
+		      org-level-2
+		      org-level-3
+		      org-level-4
+		      org-level-5))
+	(set-face-attribute face nil :weight 'semi-bold :height 1.0)))
 
-  (add-hook 'org-mode-hook 'my/org-mode-hook)
+    (add-hook 'org-mode-hook 'my/org-mode-hook)
 
-  (add-hook 'org-mode-hook
-	    (lambda ()
-	      (org-bullets-mode t)))
+    (add-hook 'org-mode-hook
+	      (lambda ()
+		(org-bullets-mode t)))
 
-  (setq org-ellipsis "⤵")
-  (setq org-src-tab-acts-natively t)
-  (setq org-src-window-setup 'current-window)
+    (setq org-ellipsis "⤵")
+    (setq org-src-tab-acts-natively t)
+    (setq org-src-window-setup 'current-window)
 
-  (setq org-directory (concat (getenv "HOME") "/private/org"))
-  (setq org-agenda-files (cons org-directory ()))
+    (setq org-directory (concat (getenv "HOME") "/private/org/"))
+    (setq org-agenda-files (cons org-directory ()))
+
+    (setq org-capture-templates
+	  '(("t" "todo" entry (file+headline (concat org-directory "/todo.org") "Tasks")
+	     "* TODO [#A] %?")))
+
+
+      ;;set priority range from A to C with default A
+      (setq org-highest-priority ?A)
+      (setq org-lowest-priority ?C)
+      (setq org-default-priority ?A)
+
+      ;;set colours for priorities
+      (setq org-priority-faces '((?A . (:foreground "#F0DFAF" :weight bold))
+				 (?B . (:foreground "LightSteelBlue"))
+				 (?C . (:foreground "OliveDrab"))))
+
+      ;;open agenda in current window
+      (setq org-agenda-window-setup (quote current-window))
 
 #+END_SRC
+
+#+RESULTS:
+: current-window
 
 set org mode encryption
 
@@ -176,7 +207,7 @@ set org mode encryption
 * mobile org settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-mobile-directory "/home/krasm/dav/org")
+  (setq org-mobile-directory (concat (getenv "HOME") "/dav/org"))
   (setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
   (setq org-mobile-files org-agenda-files)
 #+END_SRC
@@ -280,14 +311,11 @@ Customizations for cc-mode
 
 #+END_SRC
 
-* java mode
-
-#BEGIN_SRC emacs-lisp
-(custom-set-variables
-  '(eclim-eclipse-dirs '("~/opt/sts-bundle/sts-3.9.0-RELEASE")))
-(require 'eclim)
-(add-hook 'java-mode-hook 'eclim-mode)
-#END_SRC
+* JAVA (LSP-JAVA)
+#+BEGIN_SRC emacs-lisp
+  (require 'lsp-java)
+(add-hook 'java-mode-hook #'lsp)
+#+END_SRC
 
 * ELPY
 #+BEGIN_SRC emacs-lisp

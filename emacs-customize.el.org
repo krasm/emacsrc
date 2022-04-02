@@ -32,13 +32,10 @@
       org-bullets
       dockerfile-mode
       yasnippet
+      yasnippet-snippets
       auto-complete
       elpy
-      lua-mode
-      go-mode
       restclient
-      evil
-      lsp-java
       ))
 
   (mapc #'(lambda (package)
@@ -69,12 +66,8 @@
   (setq linum-format "%4d \u2502")
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
-  (require 'evil)
-  (evil-mode 1)
-#+END_SRC
 
-  ,#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
     (tool-bar-mode 0)
     (menu-bar-mode 0)
     (when window-system
@@ -309,12 +302,6 @@ Customizations for cc-mode
             (flyspell-prog-mode)
             ))
 
-#+END_SRC
-
-* JAVA (LSP-JAVA)
-#+BEGIN_SRC emacs-lisp
-  (require 'lsp-java)
-(add-hook 'java-mode-hook #'lsp)
 #+END_SRC
 
 * ELPY

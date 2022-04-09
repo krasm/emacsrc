@@ -36,7 +36,6 @@
       auto-complete
       elpy
       restclient
-      color-theme
       ))
 
   (mapc #'(lambda (package)

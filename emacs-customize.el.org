@@ -15,7 +15,7 @@
 
   (if local-elpa-mirror
   (setq package-archives '(("myelpa"  .  "d:\\misc\\myelpa")))
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")))
+  (setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")))
   )
 
   (package-initialize)
@@ -32,13 +32,11 @@
       org-bullets
       dockerfile-mode
       yasnippet
+      yasnippet-snippets
       auto-complete
       elpy
-      lua-mode
-      go-mode
       restclient
-      evil
-      lsp-java
+      color-theme
       ))
 
   (mapc #'(lambda (package)
@@ -70,11 +68,6 @@
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (require 'evil)
-  (evil-mode 1)
-#+END_SRC
-
-  ,#+BEGIN_SRC emacs-lisp
     (tool-bar-mode 0)
     (menu-bar-mode 0)
     (when window-system
@@ -311,12 +304,6 @@ Customizations for cc-mode
 
 #+END_SRC
 
-* JAVA (LSP-JAVA)
-#+BEGIN_SRC emacs-lisp
-  (require 'lsp-java)
-(add-hook 'java-mode-hook #'lsp)
-#+END_SRC
-
 * ELPY
 #+BEGIN_SRC emacs-lisp
 (require 'elpy)
@@ -391,6 +378,7 @@ Settings for yaml editing
 #+END_SRC
 
 * MISC FUNCTIONS
+
 ** format JSON
 #+BEGIN_SRC emacs-lisp
 (defun json-format ()
@@ -422,8 +410,8 @@ Settings for yaml editing
           (set-window-buffer w1 b2)
           (set-window-buffer w2 b1)
           (set-window-start w1 s2)
-          (set-window-start w2 s1)
-          (setq i (1+ i))))))))
+	(set-window-start w2 s1)
+	(setq i (1+ i))))))))
 #+END_SRC
 
 ** toggle window split

@@ -67,16 +67,18 @@
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-    (tool-bar-mode 0)
-    (menu-bar-mode 0)
-    (when window-system
-      (scroll-bar-mode -1))
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+  (when window-system
+    (scroll-bar-mode -1)
+    (xclip-mode)
+    )
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(require 'projectile)
-(projectile-global-mode)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (require 'projectile)
+  (projectile-global-mode)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 #+END_SRC
 
 * SPELLCHECKER
@@ -310,9 +312,10 @@ Customizations for cc-mode
 
 * ELPY
 #+BEGIN_SRC emacs-lisp
-(require 'elpy)
-(setq elpy-rpc-python-command "/usr/bin/python3")
-(setq python-shell-interpreter "/usr/bin/python3")
+  (require 'elpy)
+  (setq elpy-rpc-python-command "/usr/bin/python3")
+  (setq (point)ython-shell-interpreter "/usr/bin/python3")
+  (elpy-enable)
 #+END_SRC
 * NXML MODE
   Customizations for handling XML

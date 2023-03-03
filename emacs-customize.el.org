@@ -227,53 +227,52 @@ Note that this overrides the default font-related keybindings from
 =sensible-defaults=.
 
 #+BEGIN_SRC emacs-lisp
-  (if (eq system-type 'windows-nt)
-      (setq hrs/default-font "Consolas")
-      (setq hrs/default-font "Inconsolata")
-    )
+  (cond ((eq system-type 'windows-nt) (setq hrs/default-font "Consolas"))
+	((eq system-type 'darwin) (setq hrs/default-font "Monaco"))
+	(t (setq hrs/default-font "Inconsolata"))
+	)
+  (setq hrs/default-font-size 12)
+  (setq hrs/current-font-size hrs/default-font-size)
+  (setq hrs/font-change-(insert )ncrement 1.1)
 
-    (setq hrs/default-font-size 10)
-    (setq hrs/current-font-size hrs/default-font-size)
-    (setq hrs/font-change-increment 1.1)
+  (defun hrs/font-code ()
+    "Return a string representing the current font (like \"Inconsolata-14\")."
+    (concat hrs/default-font "-" (number-to-string hrs/current-font-size)))
 
-    (defun hrs/font-code ()
-      "Return a string representing the current font (like \"Inconsolata-14\")."
-      (concat hrs/default-font "-" (number-to-string hrs/current-font-size)))
+  (defun hrs/set-font-size ()
+    "Set the font to `hrs/default-font' at `hrs/current-font-size'.
+      Set that for the current frame, and also make it the default for
+      other, future frames."
+	(let ((font-code (hrs/font-code)))
+	  (add-to-list 'default-frame-alist (cons 'font font-code))
+	  (set-frame-font font-code)))
 
-    (defun hrs/set-font-size ()
-      "Set the font to `hrs/default-font' at `hrs/current-font-size'.
-    Set that for the current frame, and also make it the default for
-    other, future frames."
-      (let ((font-code (hrs/font-code)))
-	(add-to-list 'default-frame-alist (cons 'font font-code))
-	(set-frame-font font-code)))
+      (defun hrs/reset-font-size ()
+	"Change font size back to `hrs/default-font-size'."
+	(interactive)
+	(setq hrs/current-font-size hrs/default-font-size)
+	(hrs/set-font-size))
 
-    (defun hrs/reset-font-size ()
-      "Change font size back to `hrs/default-font-size'."
-      (interactive)
-      (setq hrs/current-font-size hrs/default-font-size)
-      (hrs/set-font-size))
+      (defun hrs/increase-font-size ()
+	"Increase current font size by a factor of `hrs/font-change-increment'."
+	(interactive)
+	(setq hrs/current-font-size
+	      (ceiling (* hrs/current-font-size hrs/font-change-increment)))
+	(hrs/set-font-size))
 
-    (defun hrs/increase-font-size ()
-      "Increase current font size by a factor of `hrs/font-change-increment'."
-      (interactive)
-      (setq hrs/current-font-size
-	    (ceiling (* hrs/current-font-size hrs/font-change-increment)))
-      (hrs/set-font-size))
+      (defun hrs/decrease-font-size ()
+	"Decrease current font size by a factor of `hrs/font-change-increment', down to a minimum size of 1."
+	(interactive)
+	(setq hrs/current-font-size
+	      (max 1
+		   (floor (/ hrs/current-font-size hrs/font-change-increment))))
+	(hrs/set-font-size))
 
-    (defun hrs/decrease-font-size ()
-      "Decrease current font size by a factor of `hrs/font-change-increment', down to a minimum size of 1."
-      (interactive)
-      (setq hrs/current-font-size
-	    (max 1
-		 (floor (/ hrs/current-font-size hrs/font-change-increment))))
-      (hrs/set-font-size))
+      (define-key global-map (kbd "C-)") 'hrs/reset-font-size)
+      (define-key global-map (kbd "C-+") 'hrs/increase-font-size)
+      (define-key global-map (kbd "C--") 'hrs/decrease-font-size)
 
-    (define-key global-map (kbd "C-)") 'hrs/reset-font-size)
-    (define-key global-map (kbd "C-+") 'hrs/increase-font-size)
-    (define-key global-map (kbd "C--") 'hrs/decrease-font-size)
-
-    (hrs/reset-font-size)
+      (hrs/reset-font-size)
 #+END_SRC
 
 #+RESULTS:
@@ -318,6 +317,7 @@ Customizations for cc-mode
   (setq elpy-rpc-python-command "/usr/bin/python3")
   (setq python-shell-interpreter "/usr/bin/python3")
   (elpy-enable)
+  (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 #+END_SRC
 * NXML MODE
   Customizations for handling XML
@@ -388,6 +388,16 @@ Settings for yaml editing
 
 * MISC FUNCTIONS
 
+** reverse selection
+#+BEGIN_SRC emacs-lisp
+  (defun my-reverse-region (beg end)
+    "Reverse characters between BEG and END."
+    (interactive "r")
+    (let ((region (buffer-substring beg end)))
+      (delete-region beg end)
+      (insert (nreverse region))))
+#+END_SRC
+
 ** format JSON
 #+BEGIN_SRC emacs-lisp
 (defun json-format ()
@@ -425,30 +435,30 @@ Settings for yaml editing
 
 ** toggle window split
 #+BEGIN_SRC emacs-lisp
-(defun toggle-window-split ()
-  (interactive)
-  (if (= (count-windows) 2)
-      (let* ((this-win-buffer (window-buffer))
-             (next-win-buffer (window-buffer (next-window)))
-             (this-win-edges (window-edges (selected-window)))
-             (next-win-edges (window-edges (next-window)))
-             (this-win-2nd (not (and (<= (car this-win-edges)
-                                         (car next-win-edges))
-                                     (<= (cadr this-win-edges)
-                                         (cadr next-win-edges)))))
-             (splitter
-              (if (= (car this-win-edges)
-                     (car (window-edges (next-window))))
-                  'split-window-horizontally
-                'split-window-vertically)))
-	(delete-other-windows)
-	(let (((format "message" format-args)irst-win (selected-window)))
-          (funcall splitter)
-          (if this-win-2nd (other-window 1))
-          ((setq )et-window-buffer (selected-window) this-win-buffer)
-          (set-window-buffer (next-window) next-win-buffer)
-          (select-window first-win)
-          (if this-win-2nd (other-window 1))))))
+  (defun toggle-window-split ()
+    (interactive)
+    (if (= (count-windows) 2)
+	(let* ((this-win-buffer (window-buffer))
+	       (next-win-buffer (window-buffer (next-window)))
+	       (this-win-edges (window-edges (selected-window)))
+	       (next-win-edges (window-edges (next-window)))
+	       (this-win-2nd (not (and (<= (car this-win-edges)
+					   (car next-win-edges))
+				       (<= (cadr this-win-edges)
+					   (cadr next-win-edges)))))
+	       (splitter
+		(if (= (car this-win-edges)
+		       (car (window-edges (next-window))))
+		    'split-window-horizontally
+		  'split-window-vertically)))
+	  (delete-other-windows)
+	  (let (((format "message" format-args)irst-win (selected-window)))
+	    (funcall splitter)
+	    (if this-win-2nd (other-window 1))
+	    ((setq )et-window-buffer (selected-window) this-win-buffer)
+	    (set-window-buffer (next-window) next-win-buffer)
+	    (select-window first-win)
+	    (if this-win-2nd (other-window 1))))))
 #+END_SRC
 
 ** toggle full screen on X11

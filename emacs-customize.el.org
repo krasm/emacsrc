@@ -1,5 +1,5 @@
 * GLOBAL SETTINGS
-#+BEGIN_SRC emacs-lisp
+org+BEGIN_SRC emacs-lisp
 
 (add-to-list 'load-path packages-dir)
 #+END_SRC
@@ -9,48 +9,65 @@
 
 
 #+BEGIN_SRC emacs-lisp
+    (setq package-archives
+	  '(("GNU ELPA" . "https://elpa.gnu.org/packages/")
+	    ("MELPA Stable" . "https://stable.melpa.org/packages/")
+	    ("MELPA" . "https://melpa.org/packages/"))
+	  package-archive-priorities
+	  '(("MELPA Stable" . 10)
+	    ("MELPA" . 5)
+	    ("GNU ELPA" . 0)))
 
-  (require 'package)
-  (setq local-elpa-mirror (getenv  "LOCAL_ELPA_MIRROR"))
+    (condition-case nil
+	(require 'use-package)
+      (file-error
+       (require 'package)
+       (setq package-archives
+	     '(("GNU ELPA" . "https://elpa.gnu.org/packages/")
+	       ("MELPA Stable" . "https://stable.melpa.org/packages/")
+	       ("MELPA" . "https://melpa.org/packages/"))
+	     package-archive-priorities
+	     '(("MELPA Stable" . 10)
+	       ("MELPA" . 5)
+	       ("GNU ELPA" . 0)))
 
-  (if local-elpa-mirror
-  (setq package-archives '(("myelpa"  .  "d:\\misc\\myelpa")))
-  (setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")))
-  )
+       (package-initialize)
+       (package-refresh-contents)
+       (package-install 'use-package)
+       (setq use-package-always-ensure t)
+       (require 'use-package)))
 
-  (package-initialize)
-  (when (not package-archive-contents)
-    (package-refresh-contents))
+  (use-package projectile)
+  (use-package flycheck)
+  (use-package yasnippet :config (yas-global-mode))
+  (use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration)))
+  (use-package hydra)
+  (use-package company)
+  (use-package lsp-ui)
+  (use-package which-key :config (which-key-mode))
+  (use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
+  (use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
+  (use-package dap-java :ensure nil)
+  (use-package helm-lsp)
+  (use-package helm
+	       :config (helm-mode))
+  (use-package lsp-treemacs)
+  (use-package better-defaults)
+  (use-package org-bullets)
+  (use-package yaml-mode)
+  (use-package dockerfile-mode)
+  (use-package restclient)
+  (use-package elpy)
+  (use-package lua-mode)
+  (use-package notmuch)
+  (use-package xcscope)
 
-  (defvar myPackages
-    '(better-defaults
-      xcscope
-      magit
-      solarized-theme
-      projectile
-      yaml-mode
-      org-bullets
-      dockerfile-mode
-      yasnippet
-      yasnippet-snippets
-      auto-complete
-      elpy
-      restclient
-      ))
-
-  (mapc #'(lambda (package)
-	    (unless (package-installed-p package)
-	      (package-install package)))
-	myPackages)
 #+END_SRC
 
 * GLOBAL CUSTOMIZATION
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t) ;; hide the startup message
-  (if (display-graphic-p)
-      (load-theme 'solarized-light t) ;; load solarized theme
-    )
   (global-linum-mode t) ;; enable line numbers globally
   (display-time-mode 1)
 
@@ -71,7 +88,6 @@
   (menu-bar-mode 0)
   (when window-system
     (scroll-bar-mode -1)
-    (xclip-mode)
     )
 #+END_SRC
 
@@ -79,6 +95,9 @@
   (require 'projectile)
   (projectile-global-mode)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (require 'notmuch)
+
+  (setq sendmail-program "msmtp-enqueue")
 #+END_SRC
 
 * SPELLCHECKER
@@ -122,15 +141,15 @@
 
 Set directory to store snippets.
 #+BEGIN_SRC emacs-lisp
-  (setq yas-snippet-dirs
-	'(snippets-dir)
-	)
-  (yas-global-mode 1)
-  ;; Bind `SPC' to `yas-expand' when snippet expansion available (it
-  ;; will still call `self-insert-command' otherwise).
-  (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
-  ;; Bind `C-c y' to `yas-expand' ONLY.
-  (define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
+    (setq yas-snippet-dirs
+	  '(snippets-dir)
+	  )
+    (yas-global-mode 1)
+    ;; Bind `SPC' to `yas-expand' when snippet expansion available (it
+    ;; will still call `self-insert-command' otherwise).
+  ;;  (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
+    ;; Bind `C-c y' to `yas-expand' ONLY.
+    (define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
 #+END_SRC
 
 * ORG MODE
@@ -233,7 +252,7 @@ Note that this overrides the default font-related keybindings from
 	)
   (setq hrs/default-font-size 12)
   (setq hrs/current-font-size hrs/default-font-size)
-  (setq hrs/font-change-(insert )ncrement 1.1)
+  (setq hrs/font-change-increment 1.1)
 
   (defun hrs/font-code ()
     "Return a string representing the current font (like \"Inconsolata-14\")."
@@ -311,7 +330,13 @@ Customizations for cc-mode
 
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+    (require 'lsp-java)
+    (add-hook 'java-mode-hook #'lsp)
+#+END_SRC
+
 * ELPY
+
 #+BEGIN_SRC emacs-lisp
   (require 'elpy)
   (setq elpy-rpc-python-command "/usr/bin/python3")

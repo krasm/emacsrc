@@ -9,19 +9,27 @@ org+BEGIN_SRC emacs-lisp
 
 
 #+BEGIN_SRC emacs-lisp
-  (condition-case nil
-      (require 'use-package)
-    (require 'use-package-ensure)
-    (file-error
-     (require 'package)
-     (setq package-archives
-           '(("GNU ELPA" . "https://elpa.gnu.org/packages/")
-             ("MELPA Stable" . "https://stable.melpa.org/packages/")
-             ("MELPA" . "https://melpa.org/packages/"))
-           package-archive-priorities
-           '(("MELPA Stable" . 10)
-             ("MELPA" . 5)
-             ("GNU ELPA" . 0)))
+    (setq package-archives
+          '(("GNU ELPA" . "https://elpa.gnu.org/packages/")
+            ("MELPA Stable" . "https://stable.melpa.org/packages/")
+            ("MELPA" . "https://melpa.org/packages/"))
+          package-archive-priorities
+          '(("MELPA Stable" . 10)
+            ("MELPA" . 5)
+            ("GNU ELPA" . 0)))
+
+    (condition-case nil
+        (require 'use-package)
+      (file-error
+       (require 'package)
+       (setq package-archives
+             '(("GNU ELPA" . "https://elpa.gnu.org/packages/")
+               ("MELPA Stable" . "https://stable.melpa.org/packages/")
+               ("MELPA" . "https://melpa.org/packages/"))
+             package-archive-priorities
+             '(("MELPA Stable" . 10)
+               ("MELPA" . 5)
+               ("GNU ELPA" . 0)))
 
        (package-initialize)
        (package-refresh-contents)
@@ -31,7 +39,7 @@ org+BEGIN_SRC emacs-lisp
 
   (use-package projectile)
   (use-package flycheck)
-  (use-package yasnippet :config (yas-global-mode))
+  ;;(use-package yasnippet :config (yas-global-mode))
   (use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration)))
   (use-package hydra)
   (use-package company)
@@ -49,8 +57,8 @@ org+BEGIN_SRC emacs-lisp
   (use-package yaml-mode)
   (use-package dockerfile-mode)
   (use-package restclient)
-  (use-package elpy)
-  (use-package lua-mode)
+  ;;(use-package elpy)
+  ;;(use-package lua-mode)
   (use-package notmuch)
   (use-package xcscope)
   (use-package magit
@@ -90,7 +98,12 @@ org+BEGIN_SRC emacs-lisp
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (require 'notmuch)
 
-  (setq sendmail-program "msmtp-enqueue")
+  (setq message-sendmail-envelope-from "m@krasm.net")
+  (setq sendmail-program "msmtpq")
+  (setq smtpmail-local-domain "krasm.net")
+  (setq mail-self-blind t)
+  (setq mail-default-headers
+      "Bcc: m@krasm.net")
 #+END_SRC
 
 * SPELLCHECKER
@@ -98,18 +111,16 @@ org+BEGIN_SRC emacs-lisp
 (setq ispell-program-name (or (getenv "ASPELL_PROG") "aspell"))
 (require 'ispell)
 (setenv "DICTIONARY" "en_GB")
-
 #+END_SRC
 
 * AUTOCOMPLETE
 
   Settings for autocomplete.
 #+BEGIN_SRC emacs-lisp
-(ac-config-default)
+  (ac-config-default)
 #+END_SRC
 
 * CSCOPE
-
 
 #+BEGIN_SRC emacs-lisp
 (require 'xcscope)
@@ -128,21 +139,6 @@ org+BEGIN_SRC emacs-lisp
    sr-speedbar-delete-windows t
    sr-speedbar-auto-refresh t)
 ;;(sr-speedbar-open)
-#+END_SRC
-
-* YASSNIPPET
-
-Set directory to store snippets.
-#+BEGIN_SRC emacs-lisp
-    (setq yas-snippet-dirs
-	  '(snippets-dir)
-	  )
-    (yas-global-mode 1)
-    ;; Bind `SPC' to `yas-expand' when snippet expansion available (it
-    ;; will still call `self-insert-command' otherwise).
-  ;;  (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
-    ;; Bind `C-c y' to `yas-expand' ONLY.
-    (define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
 #+END_SRC
 
 * ORG MODE
@@ -328,58 +324,45 @@ Customizations for cc-mode
     (add-hook 'java-mode-hook #'lsp)
 #+END_SRC
 
-* ELPY
-
-#+BEGIN_SRC emacs-lisp
-  (require 'elpy)
-  (setq elpy-rpc-python-command "/usr/bin/python3")
-  (setq python-shell-interpreter "/usr/bin/python3")
-  (elpy-enable)
-  (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
-#+END_SRC
 * NXML MODE
   Customizations for handling XML
 #+BEGIN_SRC emacs-lisp
-(require 'nxml-mode)
+  (require 'nxml-mode)
 
-;; based on alex ott nxml mode
+  ;; based on alex ott nxml mode
+  (fset 'xml-mode 'nxml-mode)
 
-(fset 'xml-mode 'nxml-mode)
+  (defun mk/nxml-mode-hook ()
+    (local-set-key "\C-c/" 'nxml-finish-element)
+    (rng-validate-mode)
+    (unify-8859-on-decoding-mode)
+    (setq ispell-skip-html t)
+    (hs-minor-mode 1)
+    )
+  (add-hook 'nxml-mode-hook 'mk/nxml-mode-hook)
 
-(defun mk/nxml-mode-hook ()
-  (local-set-key "\C-c/" 'nxml-finish-element)
-  (rng-validate-mode)
-  (unify-8859-on-decoding-mode)
-  (setq ispell-skip-html t)
-  (hs-minor-mode 1)
+  (add-to-list
+   'auto-mode-alist
+   (cons (concat "\\."
+                 (regexp-opt
+                  '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss" "rdf") t) "\\'")
+         'nxml-mode))
+  (push '("<\\?xml" . nxml-mode) magic-mode-alist)
+
+  (custom-set-variables
+   '(nxml-auto-insert-xml-declaration-flag t)
+   '(nxml-attribute-indent 2)
+   '(nxml-bind-meta-tab-to-complete-flag t)
+   '(nxml-slash-auto-complete-flag t)
   )
-(add-hook 'nxml-mode-hook 'mk/nxml-mode-hook)
 
-(add-to-list
- 'auto-mode-alist
- (cons (concat "\\."
-               (regexp-opt
-                '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss" "rdf") t) "\\'")
-       'nxml-mode))
-(push '("<\\?xml" . nxml-mode) magic-mode-alist)
-
-(custom-set-variables
- '(nxml-auto-insert-xml-declaration-flag t)
- '(nxml-attribute-indent 2)
- '(nxml-bind-meta-tab-to-complete-flag t)
- '(nxml-slash-auto-complete-flag t)
-)
-
-(add-to-list 'hs-special-modes-alist
-             '(nxml-mode
-               "\\|<[^/>]&>\\|<[^/][^>]*[^/]>"
-               ""
-               nil))
-
-
+  (add-to-list 'hs-special-modes-alist
+               '(nxml-mode
+                 "\\|<[^/>]&>\\|<[^/][^>]*[^/]>"
+                 ""
+                 nil))
 #+END_SRC
 * EMACS SERVER
-
 Start emacs server if not started yet.
 
 #+BEGIN_SRC emacs-lisp

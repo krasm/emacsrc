@@ -40,17 +40,17 @@ org+BEGIN_SRC emacs-lisp
   (use-package projectile)
   (use-package flycheck)
   ;;(use-package yasnippet :config (yas-global-mode))
-  (use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration)))
+  ;;(use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration)))
   (use-package hydra)
   (use-package company)
-  (use-package lsp-ui)
+  ;;(use-package lsp-ui)
   (use-package which-key :config (which-key-mode))
-  (use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
-  (use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
-  (use-package dap-java :ensure nil)
-  (use-package helm-lsp)
-  (use-package helm
-               :config (helm-mode))
+  ;;(use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
+  ;;(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
+  ;;(use-package dap-java :ensure nil)
+  ;;(use-package helm-lsp)
+  ;;(use-package helm
+  ;;:config (helm-mode))
   (use-package lsp-treemacs)
   (use-package better-defaults)
   (use-package org-bullets)
@@ -69,7 +69,7 @@ org+BEGIN_SRC emacs-lisp
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t) ;; hide the startup message
-  (global-linum-mode t) ;; enable line numbers globally
+;;  (global-linum-mode t) ;; enable line numbers globally
   (display-time-mode 1)
 
   ;; load some defaults see https://github.com/hrs/sensible-defaults.el
@@ -320,8 +320,8 @@ Customizations for cc-mode
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-    (require 'lsp-java)
-    (add-hook 'java-mode-hook #'lsp)
+  ;;(require 'lsp-java)
+  ;;(add-hook 'java-mode-hook #'lsp)
 #+END_SRC
 
 * NXML MODE
